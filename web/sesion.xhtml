@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>PrimeFaces</title>
+            <link href="css/estilos.css" rel="stylesheet" type="text/css" /> 
+        </f:facet>
+    </h:head>
+    <h:body>
+        <h:form  id="frm">
+            <p:growl id="growl" showDetail="true" sticky="true" />
+            <p:panel id="panelReservas" header="Login" footer="Autor:andres-juan-eduard">
+                <p:panelGrid style="margin: auto; ">
+                    <p:row>
+                        <p:column >
+                            <h:outputText  value="Usuario"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="usuario" binding="#{vistaSesion.txtUsuario}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column >
+                            <h:outputText  value="Contraseña" />
+                        </p:column>
+                        <p:column>
+                            <p:password id="txtContraseña" binding="#{vistaSesion.txtContraseña}" feedback="true"/>
+                        </p:column>
+                    </p:row>
+                   
+                    <p:row>
+                        <p:column colspan="2" style="text-align: center">
+                            <p:commandButton id="btnIngresar" value="Ingresar" action="#{vistaSesion.ingresar()}" update="frm" />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+
+    </h:body>
+
+
+</html>
