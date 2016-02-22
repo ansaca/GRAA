@@ -127,6 +127,7 @@ public final class VistaAmbiente {
     }
 
     public List<Sede> getListaSede() {
+        listaSede=null;
        if (listaSede == null) {
             try {
                 listaSede =sedeDAO.consultarTodo();
@@ -227,6 +228,7 @@ public final class VistaAmbiente {
     }
 
     public String getComboSedeAmbiente() {
+        listaSede=null;
        if (listaSede == null) {
             try {
                 listaSede =sedeDAO.consultarTodo();
@@ -346,10 +348,7 @@ s.setNombresede(a.getNumerosedeambiente().getNombresede());
           
             
           //llenar combo estado ambiente
-            SelectItemGroup g4 = new SelectItemGroup("Seleccione el estado del ambiente");
-          g4.setSelectItems(new SelectItem[] {new SelectItem(a.getEstadoambiente(), a.getEstadoambiente())});
-          comboestadoAmbientes = new ArrayList<>();
-          comboestadoAmbientes.add(g4);
+        llenarComboBoxEstadoSeleccionado(a.getEstadoambiente());
           
             btnRegistrar.setDisabled(true);
             btnModificar.setDisabled(false);
@@ -398,7 +397,7 @@ public void llenarComboTiposAmbientes()
 
 public void llenarComboSedeAmbiente()
 {
-    List<Sede> lista = getListaSede();  //lista de los tipos de ambiente 
+    List<Sede> listaSede = getListaSede();  //lista de los tipos de ambiente 
         int n =0;
         
         SelectItem si; //este sera un nuevo item
@@ -406,14 +405,14 @@ public void llenarComboSedeAmbiente()
 
         do
         {
-        si = new SelectItem();  //creamos nuevo item
-        si.setLabel(lista.get(n).getNombresede()); // descripcion del nuevo item
-        si.setValue(lista.get(n).getNumerosede()); //valor del nuevo item
+            si = new SelectItem();  //creamos nuevo item
+        si.setLabel(listaSede.get(n).getNombresede()); // descripcion del nuevo item
+        si.setValue(listaSede.get(n).getNumerosede()); //valor del nuevo item
         n++;
         
         datos.add(si); // añadimos el nuevo item a la lista de items
             
-        }while(n<lista.size());
+        }while(n<listaSede.size());
         comboSedeAmbientes=datos;
 }
 
@@ -612,6 +611,43 @@ public void llenarComboBoxSedeSeleccionado(Sede sede)
             
         }while(n<lista.size());
         comboSedeAmbientes=datos;
+     }
+    
+}
+
+
+public void llenarComboBoxEstadoSeleccionado(String estadoSeleccionado)
+{
+ 
+    List<String> listaEstado= new ArrayList<>();
+    
+    listaEstado.add("Disponible");
+    listaEstado.add("Ocupado");
+    
+     if(listaEstado.contains(estadoSeleccionado))
+    {
+    listaEstado.remove(estadoSeleccionado);
+   listaEstado.add(0, estadoSeleccionado);
+    
+    int n =0;
+        SelectItem si; //este sera un nuevo item
+        List<SelectItem> datos = new ArrayList<SelectItem>();  //esta es la lista que alojara los items nuevos
+
+        do
+        {
+        si = new SelectItem();  //creamos nuevo item
+        si.setLabel(listaEstado.get(n)); // descripcion del nuevo item
+        si.setValue(listaEstado.get(n)); //valor del nuevo item
+        n++;
+        
+        datos.add(si); // añadimos el nuevo item a la lista de items
+            
+        }while(n<listaEstado.size());
+        comboestadoAmbientes=datos;
+    }
+    else
+     {
+        
      }
     
 }
