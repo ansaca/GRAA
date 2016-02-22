@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>GRAA-Gestion de Ambientes</title>
+                <link href="css/estilos.css" rel="stylesheet" type="text/css" /> 
+            </f:facet>
+        </h:head>
+
+        <h:body style="font-size: 12px;">
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit  position="north" size="120"  resizable="true">
+                    <h1>Gestion de Tipos de ambientes</h1>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    Footer
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="175" header="Minimizar" collapsible="true" >
+                    <h:form>
+                        <p:menu>
+                            <p:submenu label="Menu">
+                               <p:menuitem value="Gestion de Reservas" outcome="gestionReserva" />
+                                <p:menuitem value="Gestion de Personal" outcome="gestionPersonal" />
+                                <p:menuitem value="Gestion de tipos de Ambientes" outcome="gestionTiposAmbientes" />
+                                <p:menuitem value="Gestion de Sedes" outcome="gestionSedes" />
+                               <p:menuitem value="Gestion de Ambientes" outcome="gestionAmbiente" />
+
+                            </p:submenu>
+
+                        </p:menu>
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    
+                    <h:form  id="frmTiposAmbientes">
+                       
+                        <p:growl id="growl" showDetail="true" sticky="true" />
+                        <p:panel id="panelGestionTiposAmbientes" header="Gestion de Tipos de ambientes">
+                            <p:panelGrid style="margin: auto; ">
+                                <p:row>
+
+                                    <p:column><h:outputText value="Id:"/></p:column>
+                                    <p:column><p:inputText id="txtIdTipoAmbiente"  binding="#{vistaTiposAmbientes.txtIdTipoAmbiente}" size="50" /></p:column>
+
+                                    <p:column><h:outputText value="Nombre:" /></p:column>
+                                    <p:column><p:inputText id="txtNombreTipoAmbiente" binding="#{vistaTiposAmbientes.txtNombreTipoAmbiente}" size="50" /></p:column>
+
+                                </p:row>
+  
+                                <p:row>
+                                    <p:column colspan="8" style="text-align: center;">
+                                        <p:commandButton value="Registrar" binding="#{vistaTiposAmbientes.btnRegistrar}"  update="frmTiposAmbientes" />
+                                        <p:commandButton value="Modificar" binding="#{vistaTiposAmbientes.btnModificar}" disabled="true"/>
+                                        <p:commandButton value="Eliminar" binding="#{vistaTiposAmbientes.btnEliminar}" disabled="true"/>
+                                        <p:commandButton value="Limpiar" binding="#{vistaTiposAmbientes.btnLimpiar}"  update="frmTiposAmbientes"/>
+                                    </p:column>
+                                </p:row>
+                                
+                                     </p:panelGrid>
+                        </p:panel>
+                                
+                                         
+                                <p:dataTable id="tablaTiposAmbientes" var="tipos" value="#{vistaTiposAmbientes.listaTipoAmbiente}" rows="5"
+                                     paginator="true" rowsPerPageTemplate="5,10,15"
+                                     selectionMode="single"
+                                     selection="#{vistaTiposAmbientes.tipoAmbienteSeleccionad}"
+                                     emptyMessage="Sin datos"
+                                     rowKey="#{tipos.codigotipoambiente}" 
+                                     >
+                            
+                                    <p:ajax event="rowSelect" listener="#{vistaTiposAmbientes.onRowSelect}" update=":frmTiposAmbientes"/>
+                            
+                            <p:column headerText="Id">
+                                <h:outputText value="#{tipos.codigotipoambiente}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{tipos.descripciontipoambiente}"/>
+                            </p:column>
+                            
+                            
+                        </p:dataTable>
+                        
+                                
+                                
+                       
+                        
+           
+
+                    </h:form>
+                    
+                </p:layoutUnit>
+               
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>

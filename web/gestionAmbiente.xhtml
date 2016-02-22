@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>GRAA-Gestion de Ambientes</title>
+                <link href="css/estilos.css" rel="stylesheet" type="text/css" /> 
+            </f:facet>
+        </h:head>
+
+        <h:body style="font-size: 12px;">
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit  position="north" size="120"  resizable="true">
+                    <h1>Gestion de ambientes</h1>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    Footer
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="175" header="Minimizar" collapsible="true" >
+                    <h:form>
+                        <p:menu>
+                            <p:submenu label="Menu">
+                               <p:menuitem value="Gestion de Reservas" outcome="gestionReserva" />
+                                <p:menuitem value="Gestion de Personal" outcome="gestionPersonal" />
+                                <p:menuitem value="Gestion de tipos de Ambientes" outcome="gestionTiposAmbientes" />
+                                <p:menuitem value="Gestion de Sedes" outcome="gestionSedes" />
+                               <p:menuitem value="Gestion de Ambientes" outcome="gestionAmbiente" />
+
+                            </p:submenu>
+
+                        </p:menu>
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    
+                    <h:form  id="frm">
+                       
+                        <p:growl id="growl" showDetail="true" sticky="true" />
+                        <p:panel id="panelGestionAmbientes" header="Gestion de Ambientes">
+                            <p:panelGrid style="margin: auto; ">
+                                <p:row>
+
+                                    <p:column><h:outputText value="Id:"/></p:column>
+                                    <p:column><p:inputText id="txtIdAmbiente"  value="#{vistaAmbiente.txtIdAmbiente}" size="10" disabled="true" /></p:column>
+
+                                    <p:column><h:outputText value="Nombre:" /></p:column>
+                                    <p:column><p:inputText id="txtNombreAmbiente" binding="#{vistaAmbiente.txtNombreAmbiente}" size="10" /></p:column>
+
+                                    <p:column><h:outputText value="Capacidad:(N.personas)" /></p:column>
+                                    <p:column><p:inputText id="txtCapacidadAmbiente"  binding="#{vistaAmbiente.txtCapacidadAmbiente}" size="10" /></p:column>
+
+                                     <p:column><h:outputText value="Area:(M2)" /></p:column>
+                                     <p:column><p:inputText id="txtAreaAmbiente"  binding="#{vistaAmbiente.txtAreaAmbiente}" size="10" /></p:column>
+
+                                </p:row>
+                                
+                                
+                                
+                                <p:row>
+                                    
+                                    <p:column><h:outputText value="Tipo de ambiente:" /></p:column>
+                                    <p:column>  <p:selectOneMenu id="comboTipoAmbiente" value="#{vistaAmbiente.comboTipoAmbiente}">
+                                            <f:selectItems value="#{vistaAmbiente.comboTiposAmbientes}"  />
+                                        </p:selectOneMenu> </p:column>
+
+                                    
+                                    <p:column><h:outputText value="Sede del ambiente:" /></p:column>
+                                    <p:column>  <p:selectOneMenu id="comboSedeAmbiente" value="#{vistaAmbiente.comboSedeAmbiente}">
+                                            <f:selectItems value="#{vistaAmbiente.comboSedeAmbientes}"/>
+                                        </p:selectOneMenu> </p:column>
+                                    
+                                    
+                                    <p:column><h:outputText value="Estado del ambiente:" /></p:column>
+                                    <p:column>  <p:selectOneMenu id="comboestadoAmbiente" value="#{vistaAmbiente.comboestadoAmbiente}">
+                                            <f:selectItems value="#{vistaAmbiente.comboestadoAmbientes}" />
+                                        </p:selectOneMenu> </p:column>
+                                    
+                                </p:row>
+                                
+                                
+                                  
+                                
+                                <p:row>
+                                    <p:column colspan="8" style="text-align: center;">
+                                        <p:commandButton value="Registrar" binding="#{vistaAmbiente.btnRegistrar}" action="#{vistaAmbiente.registrarAmbiente()}"  update="frm" />
+                                        <p:commandButton value="Modificar" binding="#{vistaAmbiente.btnModificar}" disabled="true"/>
+                                        <p:commandButton value="Eliminar" binding="#{vistaAmbiente.btnEliminar}" disabled="true"/>
+                                        <p:commandButton value="Limpiar" binding="#{vistaAmbiente.btnLimpiar}" action="#{vistaAmbiente.limpiar()}" update="frm"/>
+                                    </p:column>
+                                </p:row>
+                                
+                                
+                          
+                              
+                                
+                            </p:panelGrid>
+                        </p:panel>
+                        
+                        
+                        <p:dataTable id="tabla" var="Ambiente" value="#{vistaAmbiente.listaAmbiente}" rows="5"
+                                     paginator="true" rowsPerPageTemplate="5,10,15"
+                                     selectionMode="single"
+                                     selection="#{vistaAmbiente.ambienteSeleccionado}"
+                                     emptyMessage="Sin datos"
+                                     rowKey="#{Ambiente.codigoambiente}" 
+                                     >
+                            
+                            <p:ajax event="rowSelect" listener="#{vistaAmbiente.OnRowSelect}" update=":frm"/>
+                            
+                            <p:column headerText="Id">
+                                <h:outputText value="#{Ambiente.codigoambiente}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{Ambiente.nombreambiente}"/>
+                            </p:column>
+                            <p:column headerText="Capacidad (personas)">
+                                <h:outputText value="#{Ambiente.capacidadambiente}"/>
+                            </p:column><p:column headerText="Area (M2)">
+                                <h:outputText value="#{Ambiente.areaambiente}"/>
+                            </p:column>
+                            <p:column headerText="Tipo de ambiente">
+                                <h:outputText value="#{Ambiente.codigotipoambiente.descripciontipoambiente}"/>
+                            </p:column>
+                           <p:column headerText="Sede del ambiente">
+                               <h:outputText value="#{Ambiente.numerosedeambiente.nombresede}"/>
+                            </p:column>
+                            <p:column headerText="Estado del ambiente">
+                                <h:outputText value="#{Ambiente.estadoambiente}"/>
+                            </p:column>
+                            
+                        </p:dataTable>
+                        
+                        
+
+                    </h:form>
+                    
+                </p:layoutUnit>
+               
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>GRAA</title>
+                <link href="css/estilos.css" rel="stylesheet" type="text/css" /> 
+            </f:facet>
+        </h:head>
+
+        <h:body style="font-size: 12px;">
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit  position="north" size="120"  resizable="true">
+                    
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    Footer
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="175" header="Minimizar" collapsible="true" >
+                    <h:form>
+                        <p:menu>
+                            <p:submenu label="Menu">
+                                <p:menuitem value="Gestion de Reservas" outcome="gestionReserva" />
+                                <p:menuitem value="Gestion de Personal" outcome="gestionPersonal" />
+                                <p:menuitem value="Gestion de tipos de Ambientes" outcome="gestionTiposAmbientes" />
+                                <p:menuitem value="Gestion de Sedes" outcome="gestionSedes" />
+                               <p:menuitem value="Gestion de Ambientes" outcome="gestionAmbiente" />
+
+                            </p:submenu>
+
+                        </p:menu>
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    
+                    <h:form  id="frm">
+                       
+                        <p:growl id="growl" showDetail="true" sticky="true" />
+                        <p:panel id="panelReservas" header="Reserva">
+                            <p:panelGrid style="margin: auto; ">
+                                <p:row>
+                                    <p:column><h:outputText value="Id Reserva:"/></p:column>
+                                    <p:column><p:inputText id="txtIdReserva"  value="#{vistaReservaAmbiente.txtIdReservaAmbiente}" size="10" disabled="true"/></p:column>
+
+                                    <p:column><h:outputText value="Id Ambiente:" /></p:column>
+                                    <p:column><p:inputText id="txtAmbiente" binding="#{vistaReservaAmbiente.txtIdAmbiente}" size="10" /><p:commandButton id="btnAmbiente" value="..." type="button" />
+
+                                        <p:overlayPanel id="tablaAmbiente" for="btnAmbiente" hideEffect="fade" showEffect="blind"  >
+                                            <p:dataTable var="ambiente" value="#{vistaReservaAmbiente.listaAmbiente}" 
+                                                         rows="5" paginator="true"  selection="#{vistaReservaAmbiente.ambienteSeleccionado}" 
+                                                         selectionMode="single" emptyMessage="No hay datos" rowKey="#{ambiente.codigoambiente}">
+                                                <p:ajax event="rowSelect" listener="#{vistaReservaAmbiente.filaSeleccionadaAmbiente}" update=":frm"/>
+                                                <p:column headerText="Id Ambiente">
+                                                    <h:outputText value="#{ambiente.codigoambiente}" />
+                                                </p:column>
+                                                <p:column headerText="Nombre">
+                                                    <h:outputText value="#{ambiente.nombreambiente}" />
+                                                </p:column>
+                                                <p:column headerText="Capacidad">
+                                                    <h:outputText value="#{ambiente.capacidadambiente}" />
+                                                </p:column>
+                                                <p:column headerText="Area">
+                                                    <h:outputText value="#{ambiente.areaambiente}" />
+                                                </p:column>
+                                                <p:column headerText="Id tipo ambiente">
+                                                    <h:outputText value="#{ambiente.codigotipoambiente.codigotipoambiente}" />
+                                                </p:column>
+                                                <p:column headerText="Id sede">
+                                                    <h:outputText value="#{ambiente.numerosedeambiente.numerosede}" />
+                                                </p:column>
+                                                <p:column headerText="Estado ambiente">
+                                                    <h:outputText value="#{ambiente.estadoambiente}" />
+                                                </p:column>
+                                            </p:dataTable>
+                                        </p:overlayPanel>
+
+
+
+
+                                    </p:column>
+
+                                    <p:column><h:outputText value="Id Personal:"/></p:column>
+                                    <p:column><p:inputText id="txtPersonal" binding="#{vistaReservaAmbiente.txtIdPersonal}" size="10" /><p:commandButton id="btnPersonal"  value="..." type="button"/>
+
+                                        <p:overlayPanel id="tablaPersonal" for="btnPersonal" hideEffect="fade" >
+                                            <p:dataTable var="personal" value="#{vistaReservaAmbiente.listaPersonal}" 
+                                                         rows="5" paginator="true"  selection="#{vistaReservaAmbiente.personalSeleccionado}" 
+                                                         selectionMode="single" emptyMessage="No hay datos" rowKey="#{personal.documentopersonal}">
+                                                <p:ajax event="rowSelect" listener="#{vistaReservaAmbiente.filaSeleccionadaPersonal}" update=":frm"/>
+                                                <p:column headerText="Id Personal">
+                                                    <h:outputText value="#{personal.documentopersonal}" />
+                                                </p:column>
+                                                <p:column headerText="Nombre">
+                                                    <h:outputText value="#{personal.nombrepersonal}" />
+                                                </p:column>
+                                                <p:column headerText="Apellidos">
+                                                    <h:outputText value="#{personal.apellidopersonal}" />
+                                                </p:column>
+                                                <p:column headerText="Correo">
+                                                    <h:outputText value="#{personal.correopersonal}" />
+                                                </p:column>
+                                                <p:column headerText="Telefono">
+                                                    <h:outputText value="#{personal.telefonopersonal}" />
+                                                </p:column>
+                                                <p:column headerText="Clave">
+                                                    <h:outputText value="#{personal.clavepersonal}" />
+                                                </p:column>
+                                            </p:dataTable>
+                                        </p:overlayPanel>
+                                    </p:column>
+                                    <p:column><h:outputText value="Id Ficha:"/></p:column>
+                                    <p:column><p:inputText id="txtFicha" binding="#{vistaReservaAmbiente.txtIdFicha}" size="10" /><p:commandButton id="btnFicha" type="button" value="..."/>
+
+                                        <p:overlayPanel id="tablaFicha" for="btnFicha" hideEffect="fade" my="right top">
+                                            <p:dataTable var="fichatitulacion" value="#{vistaReservaAmbiente.listaFicha}" 
+                                                         rows="5" paginator="true"  selection="#{vistaReservaAmbiente.fichaSeleccionada}" 
+                                                         selectionMode="single" emptyMessage="No hay datos" rowKey="#{fichatitulacion.fichatitulacion}">
+                                                <p:ajax event="rowSelect" listener="#{vistaReservaAmbiente.filaSeleccionadaFichaTitulacion}" update=":frm"/>
+                                                <p:column headerText="Id Ficha">
+                                                    <h:outputText value="#{fichatitulacion.fichatitulacion}" />
+                                                </p:column>
+                                                <p:column headerText="Jornada">
+                                                    <h:outputText value="#{fichatitulacion.jornadatitulacion}" />
+                                                </p:column>
+                                                <p:column headerText="Id Programa">
+                                                    <h:outputText value="#{fichatitulacion.codigoprograma.codigoprograma}" />
+                                                </p:column>
+                                            </p:dataTable>
+                                        </p:overlayPanel>
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column><p:outputLabel for="fechaInicio" value="Fecha inicio:" /></p:column>
+                                    <p:column><p:calendar id="fechaInicio" binding="#{vistaReservaAmbiente.txtFechaInicio}" pattern="yyyy-MM-dd"  effect="fold" size="10"/></p:column>
+
+                                    <p:column><p:outputLabel for="fechaFin" value="Fecha fin:" /></p:column>
+                                    <p:column><p:calendar id="fechaFin" binding="#{vistaReservaAmbiente.txtFechaFin}" pattern="yyyy-MM-dd"  effect="fold" size="10"/></p:column>
+
+                                    <p:column><p:outputLabel for="horaInicio" value="Hora inicio:" /></p:column>
+                                    <p:column><p:calendar id="horaInicio" binding="#{vistaReservaAmbiente.txtHoraInicio}" pattern="HH:mm:ss"  timeOnly="true"  effect="fold" size="10"/></p:column>
+
+                                    <p:column><p:outputLabel for="horaFin" value="Hora fin:" /></p:column>
+                                    <p:column><p:calendar id="horaFin" binding="#{vistaReservaAmbiente.txtHoraFin}" pattern="HH:mm:ss" timeOnly="true" effect="fold" size="10"/></p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column colspan="8" style="text-align: center;">
+                                        <p:commandButton value="Registrar" binding="#{vistaReservaAmbiente.btnRegistrar}" action="#{vistaReservaAmbiente.registrar()}" update="frm" />
+                                        <p:commandButton value="Modificar" binding="#{vistaReservaAmbiente.btnModificar}" disabled="true"/>
+                                        <p:commandButton value="Eliminar" binding="#{vistaReservaAmbiente.btnEliminar}" disabled="true"/>
+                                        <p:commandButton value="Limpiar" binding="#{vistaReservaAmbiente.btnLimpiar}" action="#{vistaReservaAmbiente.limpiar()}" update="frm"/>
+                                    </p:column>
+                                </p:row>
+
+                            </p:panelGrid>
+                        </p:panel>
+
+
+                        <p:dataTable id="tabla" var="reserva" value="#{vistaReservaAmbiente.listaReserva}" rows="5"
+                                     paginator="true" rowsPerPageTemplate="5,10,15"
+                                     selectionMode="single"
+                                     selection="#{vistaReservaAmbiente.reservaSeleccionada}"
+                                     emptyMessage="Sin datos"
+                                     rowKey="#{reserva.codigoreservambiente}" 
+                                     >
+
+                            
+                            
+                            <p:ajax event="rowSelect" listener="#{vistaReservaAmbiente.onRowSelect}" update=":frm"/>
+                            
+                            <p:column headerText="Id reserva">
+                                <h:outputText value="#{reserva.codigoreservambiente}"/>
+                            </p:column>
+                            <p:column headerText="Id ambiente">
+                                <h:outputText value="#{reserva.codigoambiente.codigoambiente}"/>
+                            </p:column>
+                            <p:column headerText="Id personal">
+                                <h:outputText value="#{reserva.documentopersonal.documentopersonal}"/>
+                            </p:column>
+                            <p:column headerText="Id ficha">
+                                <h:outputText value="#{reserva.fichatitulacion.fichatitulacion}"/>
+                            </p:column>
+                            <p:column headerText="Fecha inicio">
+                                
+                                <h:outputText value="#{reserva.fechainicioreserva}"/>
+                            </p:column>
+                            <p:column headerText="Fecha fin">
+                                <h:outputText value="#{reserva.fechafinreserva}"/>
+                            </p:column>
+                            <p:column headerText="Hora inicio">
+                                <h:outputText value="#{reserva.horainicioreserva}"/>
+                            </p:column>
+                            <p:column headerText="Hora fin">
+                                <h:outputText value="#{reserva.horafinreserva}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <p:commandButton value="Cerrar Sesión" action="#{vistaSesion.cerrarSesion_action}"/>
+                    </h:form>
+                    
+                </p:layoutUnit>
+               
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+
