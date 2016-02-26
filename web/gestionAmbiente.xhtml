@@ -91,13 +91,30 @@
                                 
                                 
                                   
-                                
-                                <p:row>
+                          <p:row>
                                     <p:column colspan="8" style="text-align: center;">
-                                        <p:commandButton value="Registrar" binding="#{vistaAmbiente.btnRegistrar}" action="#{vistaAmbiente.registrarAmbiente()}"  update="frm" />
-                                        <p:commandButton value="Modificar" binding="#{vistaAmbiente.btnModificar}" disabled="true"/>
-                                        <p:commandButton value="Eliminar" binding="#{vistaAmbiente.btnEliminar}" disabled="true"/>
+                                        
+                                         <p:growl id="message" showDetail="true" />
+                                         
+                                        <p:commandButton value="Registrar" binding="#{vistaAmbiente.btnRegistrar}" action="#{vistaAmbiente.registrarAmbiente()}"  update="frm" >
+                                        <p:confirm header="Confirmation" message="¿Está seguro que desea Registrar este ambiente?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+
+                                        <p:commandButton value="Modificar" binding="#{vistaAmbiente.btnModificar}" action="#{vistaAmbiente.modificarambiente()}" update="message, frm" disabled="true">
+                                            <p:confirm header="Confirmation" message="¿Está seguro que desea modificar este ambiente?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+
+                                        <p:commandButton value="Eliminar" binding="#{vistaAmbiente.btnEliminar}" action="#{vistaAmbiente.eliminar()}" update="message, frm" disabled="true">
+                                        <p:confirm header="Confirmation" message="¿Está seguro que desea eliminar este ambiente?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+                                            
                                         <p:commandButton value="Limpiar" binding="#{vistaAmbiente.btnLimpiar}" action="#{vistaAmbiente.limpiar()}" update="frm"/>
+                                   
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </p:confirmDialog>
+                                        
                                     </p:column>
                                 </p:row>
                                 

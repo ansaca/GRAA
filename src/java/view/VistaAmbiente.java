@@ -85,21 +85,15 @@ public final class VistaAmbiente {
     private List<Sede> listaSede; //lista para llenar combo sedes
     
     public VistaAmbiente() {
-        
-        
-        
+          
     }   
-    
-    
     
     @PostConstruct
     public void Init()
     {
-        
          llenarComboTiposAmbientes();
          llenarComboSedeAmbiente();
          llenarComboEstadoAmbiente();
-       
     }    
 
     public List<Tipoambiente> getListaTipo() {
@@ -151,7 +145,6 @@ public final class VistaAmbiente {
     }
 
     public Integer getTxtIdAmbiente() {
-        //txtIdReservaAmbiente.setValue(32);
         if (listaAmbiente == null) {
             try {
                 
@@ -167,8 +160,6 @@ public final class VistaAmbiente {
     public void setTxtIdAmbiente(Integer txtIdAmbiente) {
         this.txtIdAmbiente = txtIdAmbiente;
     }
-
-
 
     public SedeLogicaLocal getSedeDAO() {
         return sedeDAO;
@@ -324,36 +315,30 @@ public final class VistaAmbiente {
     
     public void OnRowSelect(SelectEvent evt)
     {
-                 Ambientedeaprendizaje a = ambienteSeleccionado;
-            
-            txtIdAmbiente=(a.getCodigoambiente());
-       
-            txtNombreAmbiente.setValue(a.getNombreambiente());
-            txtCapacidadAmbiente.setValue(a.getCapacidadambiente());
-            txtAreaAmbiente.setValue(a.getAreaambiente());
-      
-            //llenar combo tipo ambiente
-            Tipoambiente t = new Tipoambiente();
-          t.setCodigotipoambiente(a.getCodigotipoambiente().getCodigotipoambiente());
-      t.setDescripciontipoambiente(a.getCodigotipoambiente().getDescripciontipoambiente());
+           Ambientedeaprendizaje a = ambienteSeleccionado;
+        txtIdAmbiente = (a.getCodigoambiente());
+        txtNombreAmbiente.setValue(a.getNombreambiente());
+        txtCapacidadAmbiente.setValue(a.getCapacidadambiente());
+        txtAreaAmbiente.setValue(a.getAreaambiente());
+
+        //llenar combo tipo ambiente
+        Tipoambiente t = new Tipoambiente();
+        t.setCodigotipoambiente(a.getCodigotipoambiente().getCodigotipoambiente());
+        t.setDescripciontipoambiente(a.getCodigotipoambiente().getDescripciontipoambiente());
         llenarComboBoxTiposAmbientesSeleccionado(t);
 
-               
-          //llenar combo sede ambiente
-Sede s = new Sede();
-s.setNumerosede(a.getNumerosedeambiente().getNumerosede());
-s.setNombresede(a.getNumerosedeambiente().getNombresede());
+        //llenar combo sede ambiente
+        Sede s = new Sede();
+        s.setNumerosede(a.getNumerosedeambiente().getNumerosede());
+        s.setNombresede(a.getNumerosedeambiente().getNombresede());
         llenarComboBoxSedeSeleccionado(s);
 
-          
-            
-          //llenar combo estado ambiente
+        //llenar combo estado ambiente
         llenarComboBoxEstadoSeleccionado(a.getEstadoambiente());
-          
-            btnRegistrar.setDisabled(true);
-            btnModificar.setDisabled(false);
-            btnEliminar.setDisabled(false);
-          
+
+        btnRegistrar.setDisabled(true);
+        btnModificar.setDisabled(false);
+        btnEliminar.setDisabled(false);  
 
     }
     
@@ -419,6 +404,7 @@ public void llenarComboSedeAmbiente()
 
 public void llenarComboEstadoAmbiente()
 { 
+      comboestadoAmbientes=null;
         SelectItem si; //este sera un nuevo item
         List<SelectItem> datos = new ArrayList<SelectItem>();  //esta es la lista que alojara los items nuevos
 
@@ -436,15 +422,11 @@ public void llenarComboEstadoAmbiente()
         comboestadoAmbientes=datos;
 }
 
-
-
 public Integer codigoMayor(){
         
         int numero = (listaAmbiente.get(listaAmbiente.size()-1).getCodigoambiente())+1;
         return  numero;
     }
-
-
 
 public void registrarAmbiente()
 { 
@@ -507,15 +489,35 @@ public void registrarAmbiente()
             
           ambienteDAO.crear(a);
             
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "El ambiente fue creado con exito."));
+         //si todo sale bien aplique esto
+            addMessage("Exito", "El ambiente se ha Registrado con exito");
             limpiar();
-    
    
         }catch(Exception e5)
         {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error 5 "+e5.getMessage()));
         }
     } 
+}
+
+
+public void eliminar()
+{
+        try {
+            int id=txtIdAmbiente;
+            
+            Ambientedeaprendizaje a = new Ambientedeaprendizaje();
+            a.setCodigoambiente(id);
+            ambienteDAO.eliminar(a);
+            
+            //si todo sale bien aplique esto
+            addMessage("Exito", "El ambiente se ha modificado con exito");
+            limpiar();
+            
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Error eliminando el ambiente"));
+        }
+    
 }
 
 
@@ -652,13 +654,81 @@ public void llenarComboBoxEstadoSeleccionado(String estadoSeleccionado)
     
 }
 
+//metodos
 
-public void modificarAmbiente()
-{
+public void modificarambiente(){
     
-}
-
-
-
-
+    int id=txtIdAmbiente;
+    String nombre="";
+    int capacidad=0;
+    int area=0;
+    String estadoAmbiente="";
+    
+    if (txtIdAmbiente.toString().equals("") || txtNombreAmbiente.toString().equals("") || txtCapacidadAmbiente.toString().equals("") || txtAreaAmbiente.toString().equals(""))
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Todos los campos son obligatorios"));
+    }
+    else
+    {   
+    nombre = txtNombreAmbiente.getValue().toString();
+    
+    try
+    {
+        capacidad = Integer.parseInt(txtCapacidadAmbiente.getValue().toString());
+    }catch(NumberFormatException e2)
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error 2 ", "El campo Capacidad solo permite numeros."));
+    }
+    
+    try
+    {
+         area = Integer.parseInt(txtAreaAmbiente.getValue().toString());
+    }catch(NumberFormatException e3)
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error 3 ", "El campo Area solo permite numeros."));
+    }
+   
+    try
+        {
+            Tipoambiente t = new Tipoambiente();
+    t.setCodigotipoambiente(Integer.parseInt(comboTipoAmbiente));
+    
+            Sede s = new Sede();
+    s.setNumerosede(Integer.parseInt(comboSedeAmbiente));
+    
+     estadoAmbiente = comboestadoAmbiente;
+    
+            Ambientedeaprendizaje a = new Ambientedeaprendizaje();
+            a.setCodigoambiente(id);
+            a.setNombreambiente(nombre);
+            a.setCapacidadambiente(capacidad);
+            a.setAreaambiente(area);
+            a.setCodigotipoambiente(t);
+            a.setNumerosedeambiente(s);
+            a.setEstadoambiente(estadoAmbiente);
+            
+            List<Reservaambiente> listaReserva =null;
+            a.setReservaambienteList(listaReserva);
+            
+            List<Usodeambientes> listaUsos = null;
+            a.setUsodeambientesList(listaUsos);
+            
+          ambienteDAO.modificar(a);
+            
+            //si todo sale bien aplique esto
+            addMessage("Exito", "El ambiente se ha modificado con exito");
+            limpiar();
+    
+   
+        }catch(Exception e5)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error 5 "+e5.getMessage()));
+        }
+    } 
+    }
+     
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 }

@@ -52,31 +52,49 @@
                             <p:panelGrid style="margin: auto; ">
                                 <p:row>
                                  
-                                <p:column><h:outputText value="Id:"/></p:column>
-                                    <p:column><p:inputText id="txtIdSede"  value="#{vistaSede.txtIdSede}" size="10" /></p:column>
+                                    <p:column><h:outputText value="Id:"/></p:column>
+                                    <p:column><p:inputText id="txtIdSede"  value="#{vistaSede.txtIdSede}" size="10" disabled="true"/></p:column>
 
                                     <p:column><h:outputText value="Nombre:" /></p:column>
                                     <p:column><p:inputText id="txtNombreSede" binding="#{vistaSede.txtNombreSede}" size="10" /></p:column>
-                                        
-                                        <p:column><h:outputText value="Direccion:" /></p:column>
-                                        <p:column><p:inputText id="txtDireccionSede" binding="#{vistaSede.txtDireccionSede}" size="10" /></p:column>
-                                            
-                                            <p:column><h:outputText value="Funcionario encargado:" /></p:column>
-                                            <p:column>  <p:selectOneMenu id="car" value="#{vistaSede.car}">
-                                                    <f:selectItem itemLabel="Select One" itemValue="" />
-                                                    <f:selectItems value="#{vistaSede.cars}" />
-                                                </p:selectOneMenu> </p:column>
-                                            
-                                           
+
+                                    <p:column><h:outputText value="Direccion:" /></p:column>
+                                    <p:column><p:inputText id="txtDireccionSede" binding="#{vistaSede.txtDireccionSede}" size="10" /></p:column>
+
+                                    <p:column><h:outputText value="Funcionario a cargo (CC):" /></p:column>
+                                    <p:column>  <p:selectOneMenu id="comboFuncionario" value="#{vistaSede.comboFuncionario}">
+                                            <f:selectItems value="#{vistaSede.comboFuncionarios}"  />
+                                        </p:selectOneMenu> </p:column>
+                                    
+                                    <p:column><h:outputText value="Estado de la sede:" /></p:column>
+                                    <p:column>  <p:selectOneMenu id="comboEstadoSede" value="#{vistaSede.comboEstadoSede}">
+                                            <f:selectItems value="#{vistaSede.comboEstadoSedes}" />
+                                        </p:selectOneMenu> </p:column>         
 
                                 </p:row>
                                   
                                 <p:row>
                                     <p:column colspan="8" style="text-align: center;">
-                                        <p:commandButton value="Registrar" binding="#{vistaSede.btnRegistrar}"  update="frm" />
-                                        <p:commandButton value="Modificar" binding="#{vistaSede.btnModificar}" disabled="true"/>
-                                        <p:commandButton value="Eliminar" binding="#{vistaSede.btnEliminar}" disabled="true"/>
-                                        <p:commandButton value="Limpiar" binding="#{vistaSede.btnLimpiar}"  update="frm"/>
+                                       <p:growl id="message" showDetail="true" />
+                                         
+                                       <p:commandButton value="Registrar" binding="#{vistaSede.btnRegistrar}" action="#{vistaSede.registrarSede()}"  update="message, frm" >
+                                        <p:confirm header="Confirmation" message="¿Está seguro que desea Registrar esta Sede?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+
+                                       <p:commandButton value="Modificar" binding="#{vistaSede.btnModificar}" action="#{vistaSede.modificarSede()}" update="message, frm" disabled="true">
+                                            <p:confirm header="Confirmation" message="¿Está seguro que desea modificar esta Sede?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+
+                                       <p:commandButton value="Eliminar" binding="#{vistaSede.btnEliminar}" action="#{vistaSede.eliminarSede()}" update="message, frm" disabled="true">
+                                        <p:confirm header="Confirmation" message="¿Está seguro que desea eliminar esta Sede?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+                                            
+                                       <p:commandButton value="Limpiar" binding="#{vistaSede.btnLimpiar}" action="#{vistaSede.limpiar()}" update="frm"/>
+                                   
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </p:confirmDialog>
                                     </p:column>
                                 </p:row>
                                 
@@ -106,7 +124,7 @@
                             </p:column>
                             <p:column headerText="Direccion">
                                 <h:outputText value="#{sede.direccionsede}"/>
-                            </p:column><p:column headerText="Id del funcionario a cargo">
+                            </p:column><p:column headerText="Funcionario a cargo (CC)">
                                 <h:outputText value="#{sede.documentofuncionario.documentofuncionario}"/>
                             </p:column>
                             <p:column headerText="Estado de la sede">
