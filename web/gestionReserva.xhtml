@@ -12,6 +12,7 @@
                 <title>PrimeFaces</title>
                 <link href="css/estilos.css" rel="stylesheet" type="text/css" /> 
             </f:facet>
+            <script src="javascript/cambioES.js" language="javascript" type="text/javascript"></script>
         </h:head>
 
         <h:body style="font-size: 12px;">
@@ -19,12 +20,21 @@
             <p:layout fullPage="true">
 
                 <p:layoutUnit  position="north" size="120"  resizable="true">
-                    
+                    <div style="color:#33ff33; 
+                              font-size: 40px; 
+                              background-image: url('images/banner.png');
+                              background-size: 100% 86px; 
+                              height:86px; width: 100%;">
+                        <div style="padding: 10px 0px">
+                            Gestion de reservas de ambiente de aprendizaje.
+                        </div>
+                        
+                    </div>
 
                 </p:layoutUnit>
 
                 <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
-                    Footer 
+                    Footer
                 </p:layoutUnit>
 
                 <p:layoutUnit position="west" size="175" header="Minimizar" collapsible="true" >
@@ -143,16 +153,16 @@
 
                                 <p:row>
                                     <p:column><p:outputLabel for="fechaInicio" value="Fecha inicio:" /></p:column>
-                                    <p:column><p:calendar id="fechaInicio" binding="#{vistaReservaAmbiente.txtFechaInicio}"  pattern="yyyy-MM-dd"  effect="fold" size="10" /></p:column>
+                                    <p:column><p:calendar id="fechaInicio" binding="#{vistaReservaAmbiente.txtFechaInicio}" locale="es" pattern="yyyy-MM-dd"  effect="fold" size="10" /></p:column>
 
                                     <p:column><p:outputLabel for="fechaFin" value="Fecha fin:" /></p:column>
-                                    <p:column><p:calendar id="fechaFin" binding="#{vistaReservaAmbiente.txtFechaFin}" pattern="yyyy-MM-dd"  effect="fold" size="10"/></p:column>
+                                    <p:column><p:calendar id="fechaFin" binding="#{vistaReservaAmbiente.txtFechaFin}" locale="es" pattern="yyyy-MM-dd"  effect="fold" size="10"/></p:column>
 
                                     <p:column><p:outputLabel for="horaInicio" value="Hora inicio:" /></p:column>
-                                    <p:column><p:calendar id="horaInicio" binding="#{vistaReservaAmbiente.txtHoraInicio}" pattern="HH:mm:ss"  timeOnly="true"  effect="fold" size="10"/></p:column>
+                                    <p:column><p:calendar id="horaInicio" binding="#{vistaReservaAmbiente.txtHoraInicio}" locale="es" pattern="HH:mm:ss"  timeOnly="true"  effect="fold" size="10"/></p:column>
 
                                     <p:column><p:outputLabel for="horaFin" value="Hora fin:" /></p:column>
-                                    <p:column><p:calendar id="horaFin" binding="#{vistaReservaAmbiente.txtHoraFin}" pattern="HH:mm:ss" timeOnly="true" effect="fold" size="10"/></p:column>
+                                    <p:column><p:calendar id="horaFin" binding="#{vistaReservaAmbiente.txtHoraFin}" locale="es" pattern="HH:mm:ss" timeOnly="true" effect="fold" size="10"/></p:column>
                                 </p:row>
 
                                 <p:row>
