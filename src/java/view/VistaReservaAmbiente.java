@@ -6,7 +6,6 @@
 package view;
 
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +15,6 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import logic.AmbientedeAprendizajeLogicaLocal;
@@ -165,9 +163,8 @@ public class VistaReservaAmbiente {
         //txtIdReservaAmbiente.setValue(32);
         if (listaReserva == null) {
             try {
-                
                 listaReserva = reservaDAO.consultarTodo();
-                codigoMayor();
+                txtIdReservaAmbiente =codigoMayor();
             } catch (Exception ex) {
                 Logger.getLogger(VistaReservaAmbiente.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -229,7 +226,7 @@ public class VistaReservaAmbiente {
     }
 
     public Calendar getTxtFechaInicio() {
-        return txtFechaInicio;
+        return  txtFechaInicio;
     }
 
     public void setTxtFechaInicio(Calendar txtFechaInicio) {
@@ -333,6 +330,7 @@ public class VistaReservaAmbiente {
             txtIdAmbiente.setValue(r.getCodigoambiente().getCodigoambiente());
             txtIdPersonal.setValue(r.getDocumentopersonal().getDocumentopersonal());
             txtIdFicha.setValue(r.getFichatitulacion().getFichatitulacion());
+            
             txtFechaInicio.setValue(r.getFechainicioreserva());
             txtFechaFin.setValue(r.getFechafinreserva());
             
@@ -369,8 +367,7 @@ public class VistaReservaAmbiente {
 
     public void limpiar() {
         //txtIdReservaAmbiente=0;
-        //txtIdReservaAmbiente=codigoMayor();
-        codigoMayor(); 
+        txtIdReservaAmbiente=codigoMayor(); 
         txtIdFicha.setValue("");
         txtIdPersonal.setValue("");
         txtIdAmbiente.setValue("");        
@@ -384,12 +381,14 @@ public class VistaReservaAmbiente {
         listaReserva=null;
     }
     
-    public void codigoMayor(){
-        int numero;
-        numero = (listaReserva.get(listaReserva.size()-1).getCodigoreservambiente())+1;
-           
-        txtIdReservaAmbiente = numero;
-
+    public Integer codigoMayor(){
+        int numero=1;
+        try {
+            numero = (listaReserva.get(listaReserva.size()-1).getCodigoreservambiente())+1;
+        } catch (Exception ex) {
+            Logger.getLogger(VistaReservaAmbiente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return numero;
     }
 
     public void registrar(){
@@ -408,15 +407,9 @@ public class VistaReservaAmbiente {
             f.setFichatitulacion(Integer.parseInt(txtIdFicha.getValue().toString()));
             re.setFichatitulacion(f);
                 
-            DateFormat formatoF = new SimpleDateFormat("HH:mm:ss");
-            String fechaI = formatoF.format(txtFechaInicio.getValue());
-            String fechaF = formatoF.format(txtFechaFin.getValue());
-            re.setFechainicioreserva(formatoF.parse(fechaI));
-            re.setFechafinreserva(formatoF.parse(fechaF));
-            /*
             re.setFechainicioreserva((Date)txtFechaInicio.getValue());
             re.setFechafinreserva((Date)txtFechaFin.getValue());
-            */
+            
             SimpleDateFormat format1 = new SimpleDateFormat("HH:mm:ss");
             
             String h1 = format1.format(txtHoraInicio.getValue());
@@ -425,12 +418,54 @@ public class VistaReservaAmbiente {
             re.setHorafinreserva(h2);
             
             reservaDAO.crear(re);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", "Registro creado!"));
             limpiar();
             
         }catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", "Error llenando datos"+ex.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Mensaje", ex.getMessage()));
         }
         
         
+    }
+    
+    public  void modificar(){
+         
+        try {
+            Reservaambiente re = new Reservaambiente();
+            Ambientedeaprendizaje am = new Ambientedeaprendizaje();
+            Personal p = new Personal();
+            Fichatitulacion f = new Fichatitulacion();
+            
+            re.setCodigoreservambiente(txtIdReservaAmbiente);
+            
+            am.setCodigoambiente(Integer.parseInt(txtIdAmbiente.getValue().toString()));
+            re.setCodigoambiente(am);
+            p.setDocumentopersonal(Long.parseLong(txtIdPersonal.getValue().toString()));
+            re.setDocumentopersonal(p);
+            f.setFichatitulacion(Integer.parseInt(txtIdFicha.getValue().toString()));
+            re.setFichatitulacion(f);
+                
+            re.setFechainicioreserva((Date)txtFechaInicio.getValue());
+            re.setFechafinreserva((Date)txtFechaFin.getValue());
+            
+            SimpleDateFormat format1 = new SimpleDateFormat("HH:mm:ss");
+            
+            String h1 = format1.format(txtHoraInicio.getValue());
+            String h2 = format1.format(txtHoraFin.getValue());
+            re.setHorainicioreserva(h1);
+            re.setHorafinreserva(h2);
+            
+            reservaDAO.editar(re);
+            limpiar();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", "Registro modificado!"));
+            
+        }catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Mensaje", "Error modificando datos"+ex.getMessage()));
+        }
+        
+    }
+    
+    public  void eliminar(){
+    
     }
 }

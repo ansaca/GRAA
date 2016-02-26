@@ -87,7 +87,7 @@ public class Reservaambiente implements Serializable {
     }
 
     public Date getFechainicioreserva() {
-        return fechainicioreserva;
+        return new java.sql.Date(fechainicioreserva.getTime());
     }
 
     public void setFechainicioreserva(Date fechainicioreserva) {
@@ -95,7 +95,7 @@ public class Reservaambiente implements Serializable {
     }
 
     public Date getFechafinreserva() {
-        return fechafinreserva;
+        return new java.sql.Date(fechafinreserva.getTime());
     }
 
     public void setFechafinreserva(Date fechafinreserva) {
