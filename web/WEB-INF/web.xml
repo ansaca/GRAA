@@ -24,6 +24,44 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/index.xhtml</welcome-file>
+        <welcome-file>faces/sesion.xhtml</welcome-file>
     </welcome-file-list>
+    
+     <filter>
+        <filter-name>FiltroCoordinador</filter-name>
+        <filter-class>Filter.filtroCoodinador</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FiltroCoordinador</filter-name>
+        <url-pattern>/Coordinador/*</url-pattern>
+    </filter-mapping>
+    
+     <filter>
+        <filter-name>FiltroFuncionario</filter-name>
+        <filter-class>Filter.filtroFuncionario</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FiltroFuncionario</filter-name>
+        <url-pattern>/Coordinador/Funcionario/*</url-pattern>
+    </filter-mapping>
+    
+     <filter>
+        <filter-name>FiltroGuarda</filter-name>
+        <filter-class>Filter.filtroGuarda</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FiltroGuarda</filter-name>
+        <url-pattern>/Coordinador/Funcionario/Guarda/*</url-pattern>
+    </filter-mapping>
+    
+    <filter>
+        <filter-name>FiltroInstructor</filter-name>
+        <filter-class>Filter.filtroInstructor</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FiltroInstructor</filter-name>
+        <url-pattern>/Coordinador/Funcionario/Guarda/Instructor/*</url-pattern>
+    </filter-mapping>
+    
+    
 </web-app>

@@ -18,4 +18,7 @@ import model.Personal;
 public interface SesionLogicaLocal {
     public Personal iniciarSesionCoordinador(Long docummento, String contraseña) throws Exception;
     public Personal iniciarSesionFuncionario(Long docummento, String contraseña) throws Exception;
+    public Personal iniciarSesionGuarda(Long documento, String contraseña)throws Exception;
+    public Personal iniciarSesionInstructor(Long documento, String contraseña)throws Exception;
+    
 }
