@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -29,7 +30,7 @@ public class AmbientedeAprendizajeLogica implements AmbientedeAprendizajeLogicaL
         if (ambienteViejo == null) {
             ambienteDAO.create(ambiente);
         }else{
-            throw new Exception("El ambiente ya existe");
+            throw new Exception("El ambiente a registrar ya existe");
         }
 
     }
@@ -59,7 +60,7 @@ public class AmbientedeAprendizajeLogica implements AmbientedeAprendizajeLogicaL
     @Override
     public Ambientedeaprendizaje consultarCodigo(Integer idAmbiente) throws Exception {
         if (idAmbiente==null) {
-            throw  new Exception("Ingrese un codigo");
+            throw  new Exception("Ingrese un codigo a consultar");
         }else{
             return ambienteDAO.find(idAmbiente);
         }

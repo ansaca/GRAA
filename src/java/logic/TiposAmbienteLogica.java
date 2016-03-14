@@ -25,22 +25,40 @@ public class TiposAmbienteLogica implements TiposAmbienteLogicaLocal {
     
     @Override
     public void crear(Tipoambiente tipoAmbiente) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Tipoambiente tipoViejo = tipoAmbienteDao.find(tipoAmbiente.getCodigotipoambiente());
+        if (tipoViejo==null) {
+            tipoAmbienteDao.create(tipoAmbiente);
+        }else{
+            throw new Exception("El tipo de ambiente a craer ya existe");
+        }
     }
 
     @Override
     public void editar(Tipoambiente tipoAmbiente) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        Tipoambiente tipoViejo = tipoAmbienteDao.find(tipoAmbiente.getCodigotipoambiente());
+        if (tipoViejo==null) {
+            throw new Exception("El tipo de ambiente a editar no existe");
+        }else{
+            tipoAmbienteDao.edit(tipoAmbiente);
+        }    }
 
     @Override
     public void eliminar(Tipoambiente tipoAmbiente) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Tipoambiente tipoViejo = tipoAmbienteDao.find(tipoAmbiente.getCodigotipoambiente());
+        if (tipoViejo==null) {
+            throw new Exception("El tipo de ambiente a eliminar no existe");
+        }else{
+            tipoAmbienteDao.remove(tipoAmbiente);
+        }
     }
 
     @Override
-    public Sede consultarCodigo(Integer idTipoAmbiente) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Tipoambiente consultarCodigo(Integer idTipoAmbiente) throws Exception {
+       if (idTipoAmbiente==null) {
+            throw new Exception("Ingrese el id del tipo de ambiente para poderla consultar");
+        }else{
+            return tipoAmbienteDao.find(idTipoAmbiente);
+        }
     }
 
     @Override

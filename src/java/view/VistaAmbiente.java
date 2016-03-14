@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -429,16 +431,16 @@ public Integer codigoMayor(){
 public void registrarAmbiente()
 { 
     int id=txtIdAmbiente;
-   
     String nombre="";
     int capacidad=0;
     int area=0;
     String estadoAmbiente="";
+    int exepciones =0;
     
     
-    if (txtIdAmbiente.toString().equals("") || txtNombreAmbiente.toString().equals("") || txtCapacidadAmbiente.toString().equals("") || txtAreaAmbiente.toString().equals(""))
+    if (txtIdAmbiente.toString().equals("") || txtNombreAmbiente.getValue().toString().equals("") || txtCapacidadAmbiente.getValue().toString().equals("") || txtAreaAmbiente.getValue().toString().equals(""))
     {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Todos los campos son obligatorios"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Todos los campos son obligatorios!."));
     }
     else
     {   
@@ -449,7 +451,8 @@ public void registrarAmbiente()
         capacidad = Integer.parseInt(txtCapacidadAmbiente.getValue().toString());
     }catch(NumberFormatException e2)
     {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error 2 ", "El campo Capacidad solo permite numeros."));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error 2 ", "El campo Capacidad solo permite numeros!."));
+exepciones++;   
     }
     
     try
@@ -457,9 +460,14 @@ public void registrarAmbiente()
          area = Integer.parseInt(txtAreaAmbiente.getValue().toString());
     }catch(NumberFormatException e3)
     {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error 3 ", "El campo Area solo permite numeros."));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error 3 ", "El campo Área solo permite numeros1."));
+   exepciones++;
     }
    
+    if(exepciones==0)
+    {
+
+    
     try
         {
             Tipoambiente t = new Tipoambiente();
@@ -488,13 +496,18 @@ public void registrarAmbiente()
           ambienteDAO.crear(a);
             
          //si todo sale bien aplique esto
-            addMessage("Exito", "El ambiente se ha Registrado con exito");
+            addMessage("Exito", "El ambiente se ha Registrado con éxito.");
             limpiar();
    
         }catch(Exception e5)
         {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error 5 "+e5.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error llenando los datos del nuevo ambiente."));
         }
+    }
+    else
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Verifique los datos."));
+    }
     } 
 }
 
@@ -509,11 +522,11 @@ public void eliminar()
             ambienteDAO.eliminar(a);
             
             //si todo sale bien aplique esto
-            addMessage("Exito", "El ambiente se ha modificado con exito");
+            addMessage("Exito", "El ambiente se ha eliminado con éxito.");
             limpiar();
             
         } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Error eliminando el ambiente"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Error eliminando el ambiente."));
         }
     
 }
@@ -661,10 +674,11 @@ public void modificarambiente(){
     int capacidad=0;
     int area=0;
     String estadoAmbiente="";
+    int exepciones=0;
     
-    if (txtIdAmbiente.toString().equals("") || txtNombreAmbiente.toString().equals("") || txtCapacidadAmbiente.toString().equals("") || txtAreaAmbiente.toString().equals(""))
+    if (txtIdAmbiente.toString().equals("") || txtNombreAmbiente.getValue().toString().equals("") || txtCapacidadAmbiente.getValue().toString().equals("") || txtAreaAmbiente.getValue().toString().equals(""))
     {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Todos los campos son obligatorios"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Todos los campos son obligatorios."));
     }
     else
     {   
@@ -676,6 +690,7 @@ public void modificarambiente(){
     }catch(NumberFormatException e2)
     {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error 2 ", "El campo Capacidad solo permite numeros."));
+   exepciones++;
     }
     
     try
@@ -683,9 +698,13 @@ public void modificarambiente(){
          area = Integer.parseInt(txtAreaAmbiente.getValue().toString());
     }catch(NumberFormatException e3)
     {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error 3 ", "El campo Area solo permite numeros."));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error 3 ", "El campo Área solo permite numeros."));
+   exepciones++;
     }
    
+    if(exepciones==0)
+    {
+    
     try
         {
             Tipoambiente t = new Tipoambiente();
@@ -714,14 +733,19 @@ public void modificarambiente(){
           ambienteDAO.modificar(a);
             
             //si todo sale bien aplique esto
-            addMessage("Exito", "El ambiente se ha modificado con exito");
+            addMessage("Exito", "El ambiente se ha modificado con éxito.");
             limpiar();
     
    
         }catch(Exception e5)
         {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error 5 "+e5.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error llenando datos en la modificación del ambiente."));
         }
+    }
+    else
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Verifique datos."));
+    }
     } 
     }
      

@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Gestion de usos de ambiente </title>
+                <link href="css/estilos.css" rel="stylesheet" type="text/css" /> 
+            </f:facet>
+            
+            <script src="../javascript/cambioES.js"></script>
+            
+        </h:head>
+
+        <h:body style="font-size: 12px;">
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit  position="north" size="120"  resizable="true">
+                    <h1>Gestion de usos de ambiente</h1>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    Footer
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    
+                    <h:form  id="frm">
+                       
+                        <p:growl id="growl" showDetail="true" sticky="true" />
+                        <p:panel id="panelGestionAmbientes" header="Gestion de usos de ambiente">
+                            <p:panelGrid style="margin: auto; ">
+                                <p:row>
+
+                                    <p:column><h:outputText value="Id uso de ambiente:"/></p:column>
+                                    <p:column><p:inputText id="txtIdUsosAmbiente"  value="#{vistaUsosAmbiente.txtIdUsosAmbiente}" size="20" disabled="true" /></p:column>
+
+                                    <p:column><h:outputText value="Guarda:" /></p:column>
+                                    <p:column><p:inputText id="txtDocumentoGuarda" binding="#{vistaUsosAmbiente.txtDocumentoGuarda}" size="20" /></p:column>
+
+                                    <!-- combo box sede -->
+                                    
+                                     <p:column width="20"><h:outputText value="Sede del ambiente:" /></p:column>
+                                     <p:column>  <p:selectOneMenu id="comboSede" value="#{vistaUsosAmbiente.comboSede}">
+                                             <f:selectItems value="#{vistaUsosAmbiente.comboSedes}" />
+                                        </p:selectOneMenu> </p:column>
+                                    
+                                    <p:column><h:outputText value="Codigo del ambiente:" /></p:column>
+                                    <p:column><p:inputText id="txtIdAmbiente"  binding="#{vistaUsosAmbiente.txtIdAmbiente}" size="20" /></p:column>
+
+                                </p:row>
+                          
+                                <p:row>
+                                
+                                 <p:column><h:outputText value="Personal:" /></p:column>
+                                     <p:column><p:inputText id="txtIdPersonal"  binding="#{vistaUsosAmbiente.txtIdPersonal}" size="20" /></p:column>
+
+                                      <!-- combo box ficha titulacion -->
+                                      <p:column width="20"><h:outputText value="Ficha titulacion:" /></p:column>
+                                      <p:column>  <p:selectOneMenu id="comboFichaTitulacion" value="#{vistaUsosAmbiente.comboFichaTitulacion}">
+                                              <f:selectItems value="#{vistaUsosAmbiente.combosFichaTitulacion}" />
+                                        </p:selectOneMenu> </p:column>
+                                      
+                                       <!-- fecha uso de ambiente -->
+                                        <p:column width="20"><h:outputText value="Fecha del uso de ambiente" /></p:column>
+                                        <p:column> <p:calendar id="txtFechaUsoAmbiente" binding="#{vistaUsosAmbiente.txtFechaUsoAmbiente}" locale="es" pattern="yyyy/MM/dd" effect="fold" size="10"/> </p:column>
+                                
+                                      <!-- hora inicio uso de ambiente -->
+                                 <p:column width="20"><h:outputText value="Hora de entrada del uso de ambiente:" /></p:column>
+                                 <p:column>     <p:calendar id="txtHoraInicioUsosAmbiente" binding="#{vistaUsosAmbiente.txtHoraInicioUsosAmbiente}" locale="es" pattern="HH:mm" timeOnly="true" effect="fold" size="20"/> </p:column>
+                                        
+                                </p:row>
+                                  
+                                <p:row>
+                                
+                               
+                                       
+                                      <!-- hora Fin uso de ambiente -->
+                                        <p:column width="20"><h:outputText value="Hora de salida del uso de ambiente:" /></p:column>
+                                        <p:column>  <p:calendar id="txtHoraSalioUsosAmbiente" binding="#{vistaUsosAmbiente.txtHoraFinUsosAmbiente}" locale="es" pattern="HH:mm" timeOnly="true" effect="fold" size="20"/>  </p:column>
+                                
+                                      
+                                   <!-- entrega del ambiente -->
+                                    <p:column width="20"><h:outputText value="Entrega del ambiente:" /></p:column>
+                                    <p:column>  <p:selectOneMenu id="comboEntregaAmbiente" value="#{vistaUsosAmbiente.comboEntregaAmbiente}">
+                                            <f:selectItems value="#{vistaUsosAmbiente.combosEntregaAmbiente}" />
+                                        </p:selectOneMenu> </p:column>
+                                  
+                                    <p:column><h:outputText value="Observaciones de la entrega del ambiente:"/></p:column>
+                                    <p:column><p:inputText id="txtObservaciones"  value="#{vistaUsosAmbiente.txtObservaciones}" size="20" disabled="true" /></p:column>
+                                     
+                                    
+                                      </p:row>
+                                
+                                
+                          <p:row>
+                                    <p:column colspan="8" style="text-align: center;">
+                                        
+                                         <p:growl id="message" showDetail="true" />
+                                         
+                                         <p:commandButton value="Registrar" binding="#{vistaUsosAmbiente.btnRegistrar}" action="#{vistaUsosAmbiente.registrarUsosAmbiente()}"  update="frm, message" >
+                                        <p:confirm header="Confirmation" message="¿Está seguro que desea Registrar este uso de ambiente?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+
+                                         <p:commandButton value="Modificar" binding="#{vistaUsosAmbiente.btnModificar}" action="#{vistaUsosAmbiente.modificarUsosAmbiente()}" update="message, frm" disabled="true">
+                                            <p:confirm header="Confirmation" message="¿Está seguro que desea modificar este uso de ambiente?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+
+                                         <p:commandButton value="Eliminar" binding="#{vistaUsosAmbiente.btnEliminar}" action="#{vistaUsosAmbiente.eliminarUsosAmbiente()}" update="message, frm" disabled="true">
+                                        <p:confirm header="Confirmation" message="¿Está seguro que desea eliminar este uso de ambiente?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+                                            
+                                         <p:commandButton value="Limpiar" binding="#{vistaUsosAmbiente.btnLimpiar}" action="#{vistaUsosAmbiente.limpiarUsosAmbiente()}" update="frm"/>
+                                   
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </p:confirmDialog>
+                                        
+                                    </p:column>
+                                </p:row>
+                                
+                                
+                         
+                              
+                                
+                            </p:panelGrid>
+                        </p:panel>
+                        
+                        
+                        <p:dataTable id="tabla" var="uso" value="#{vistaUsosAmbiente.listaUsosAmbiente}" rows="5"
+                                     paginator="true" rowsPerPageTemplate="5,10,15"
+                          
+                                     emptyMessage="Sin datos"
+                                     rowKey="#{uso.codigousoambiente}" 
+                                     >
+
+              
+                            
+                            <p:column headerText="Id uso de ambiente">
+                                <h:outputText value="#{uso.codigousoambiente}"/>
+                            </p:column>
+                            
+                            
+                           
+                            
+                        </p:dataTable>
+                        
+                    </h:form>
+                    
+                </p:layoutUnit>
+               
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+

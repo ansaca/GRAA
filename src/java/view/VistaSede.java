@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -53,7 +55,7 @@ public class VistaSede {
   @EJB
   private FuncionarioLogicaLocal funcionarioDAO;
   
-  private Integer txtIdSede=null;
+    private Integer txtIdSede=null;
     private InputText txtNombreSede;
     private InputText txtDireccionSede;
     private List<Sede> listaSede=null;
@@ -278,14 +280,13 @@ public class VistaSede {
    public void registrarSede()
    {
        int id=txtIdSede;
-  
     String nombre="";
     String direccion="";   
     String estadoSede="";
     
-    if (txtIdSede.toString().equals("") || txtNombreSede.toString().equals("") || txtDireccionSede.toString().equals(""))
+    if (txtIdSede.toString().equals("") || txtNombreSede.getValue().toString().equals("") || txtDireccionSede.getValue().toString().equals(""))
     {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Todos los campos son obligatorios"));
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Todos los campos son obligatorios. "));
     }
     else
     {   
@@ -309,7 +310,7 @@ public class VistaSede {
             sedeDAO.crear(s);
             
          //si todo sale bien aplique esto
-            addMessage("Exito", "La sede se ha Registrado con exito");
+            addMessage("Exito", "La sede se ha Registrado con éxito!");
             limpiar();
    
         }catch(Exception e5)
@@ -321,12 +322,67 @@ public class VistaSede {
    
    public void modificarSede()
    {
-       
+    int id=txtIdSede;
+    String nombre="";
+    String direccion="";   
+    String estadoSede="";
+    
+    if (txtIdSede.toString().equals("") || txtNombreSede.getValue().toString().equals("") || txtDireccionSede.getValue().toString().equals(""))
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Todos los campos son obligatorios."));
+    }
+    else
+    {   
+    nombre = txtNombreSede.getValue().toString();
+    direccion = txtDireccionSede.getValue().toString();
+ 
+    try
+        {
+            Funcionario f = new Funcionario();
+    f.setDocumentofuncionario(Long.parseLong(comboFuncionario));
+    
+     estadoSede = comboEstadoSede;
+     
+            Sede s = new Sede();
+            s.setNumerosede(id);
+            s.setNombresede(nombre);
+            s.setDireccionsede(direccion);
+            s.setDocumentofuncionario(f);
+            s.setEstadosede(estadoSede);
+            
+            sedeDAO.editar(s);
+            
+         //si todo sale bien aplique esto
+            addMessage("Exito", "La sede se ha Modificado con éxito!");
+            limpiar();
+   
+        }catch(Exception e5)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error 5 "+e5.getMessage()));
+        }
+    } 
    }
      
    public void eliminarSede()
    {
-       
+       int id=txtIdSede;
+ 
+    try
+        {
+            Sede s = new Sede();
+            s.setNumerosede(id);
+            
+            sedeDAO.eliminar(s);
+            
+         //si todo sale bien aplique esto
+            addMessage("Exito", "La sede se ha Eliminado con éxito!");
+            limpiar();
+   
+        }catch(Exception e5)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error 5 "+e5.getMessage()));
+        }
+   
    }
    
    public void limpiar()
@@ -337,6 +393,9 @@ public class VistaSede {
         txtDireccionSede.setValue("");
         llenarComboFuncionarios();
         llenarComboEstadoSede();
+        btnRegistrar.setDisabled(false);
+        btnModificar.setDisabled(true);
+        btnEliminar.setDisabled(true);
    }
     
    public Integer codigoMayor(){

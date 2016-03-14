@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -45,9 +46,9 @@ public class SedeLogica implements SedeLogicaLocal {
     public void eliminar(Sede sede) throws Exception {
         Sede sedeVieja = sedeDao.find(sede.getNumerosede());
         if (sedeVieja==null) {
-            throw new Exception("La reserva a eliminar no existe");
+            throw new Exception("La sede a eliminar no existe");
         }else{
-            sedeDao.edit(sede);
+            sedeDao.remove(sede);
         }
     }
 

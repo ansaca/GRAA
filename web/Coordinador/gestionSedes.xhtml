@@ -53,15 +53,20 @@
                                 <p:row>
                                  
                                     <p:column><h:outputText value="Id:"/></p:column>
-                                    <p:column><p:inputText id="txtIdSede"  value="#{vistaSede.txtIdSede}" size="10" disabled="true"/></p:column>
+                                    <p:column><p:inputText id="txtIdSede"  value="#{vistaSede.txtIdSede}" size="25" disabled="true"/></p:column>
 
                                     <p:column><h:outputText value="Nombre:" /></p:column>
-                                    <p:column><p:inputText id="txtNombreSede" binding="#{vistaSede.txtNombreSede}" size="10" /></p:column>
+                                    <p:column><p:inputText id="txtNombreSede" binding="#{vistaSede.txtNombreSede}" size="25" /></p:column>
 
                                     <p:column><h:outputText value="Direccion:" /></p:column>
-                                    <p:column><p:inputText id="txtDireccionSede" binding="#{vistaSede.txtDireccionSede}" size="10" /></p:column>
+                                    <p:column><p:inputText id="txtDireccionSede" binding="#{vistaSede.txtDireccionSede}" size="25" /></p:column>
 
-                                    <p:column><h:outputText value="Funcionario a cargo (CC):" /></p:column>
+                                </p:row>
+                              
+                                
+                                
+                                <p:row>
+                                <p:column><h:outputText value="Funcionario a cargo (CC):" /></p:column>
                                     <p:column>  <p:selectOneMenu id="comboFuncionario" value="#{vistaSede.comboFuncionario}">
                                             <f:selectItems value="#{vistaSede.comboFuncionarios}"  />
                                         </p:selectOneMenu> </p:column>
@@ -69,10 +74,12 @@
                                     <p:column><h:outputText value="Estado de la sede:" /></p:column>
                                     <p:column>  <p:selectOneMenu id="comboEstadoSede" value="#{vistaSede.comboEstadoSede}">
                                             <f:selectItems value="#{vistaSede.comboEstadoSedes}" />
-                                        </p:selectOneMenu> </p:column>         
-
-                                </p:row>
-                                  
+                                        </p:selectOneMenu> </p:column>     
+                                
+                                 </p:row>
+                               
+                                
+                                
                                 <p:row>
                                     <p:column colspan="8" style="text-align: center;">
                                        <p:growl id="message" showDetail="true" />

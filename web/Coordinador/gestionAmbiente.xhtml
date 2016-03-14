@@ -53,16 +53,16 @@
                                 <p:row>
 
                                     <p:column><h:outputText value="Id:"/></p:column>
-                                    <p:column><p:inputText id="txtIdAmbiente"  value="#{vistaAmbiente.txtIdAmbiente}" size="10" disabled="true" /></p:column>
+                                    <p:column><p:inputText id="txtIdAmbiente"  value="#{vistaAmbiente.txtIdAmbiente}" size="25" disabled="true" /></p:column>
 
                                     <p:column><h:outputText value="Nombre:" /></p:column>
-                                    <p:column><p:inputText id="txtNombreAmbiente" binding="#{vistaAmbiente.txtNombreAmbiente}" size="10" /></p:column>
+                                    <p:column><p:inputText id="txtNombreAmbiente" binding="#{vistaAmbiente.txtNombreAmbiente}" size="25" /></p:column>
 
                                     <p:column><h:outputText value="Capacidad:(N.personas)" /></p:column>
-                                    <p:column><p:inputText id="txtCapacidadAmbiente"  binding="#{vistaAmbiente.txtCapacidadAmbiente}" size="10" /></p:column>
+                                    <p:column><p:inputText id="txtCapacidadAmbiente"  binding="#{vistaAmbiente.txtCapacidadAmbiente}" size="25" /></p:column>
 
                                      <p:column><h:outputText value="Area:(M2)" /></p:column>
-                                     <p:column><p:inputText id="txtAreaAmbiente"  binding="#{vistaAmbiente.txtAreaAmbiente}" size="10" /></p:column>
+                                     <p:column><p:inputText id="txtAreaAmbiente"  binding="#{vistaAmbiente.txtAreaAmbiente}" size="25" /></p:column>
 
                                 </p:row>
                                 
@@ -70,9 +70,9 @@
                                 
                                 <p:row>
                                     
-                                    <p:column><h:outputText value="Tipo de ambiente:" /></p:column>
+                                    <p:column width="20"><h:outputText value="Tipo de ambiente:" /></p:column>
                                     <p:column>  <p:selectOneMenu id="comboTipoAmbiente" value="#{vistaAmbiente.comboTipoAmbiente}">
-                                            <f:selectItems value="#{vistaAmbiente.comboTiposAmbientes}"  />
+                                            <f:selectItems value="#{vistaAmbiente.comboTiposAmbientes}" />
                                         </p:selectOneMenu> </p:column>
 
                                     
@@ -96,7 +96,7 @@
                                         
                                          <p:growl id="message" showDetail="true" />
                                          
-                                        <p:commandButton value="Registrar" binding="#{vistaAmbiente.btnRegistrar}" action="#{vistaAmbiente.registrarAmbiente()}"  update="frm" >
+                                        <p:commandButton value="Registrar" binding="#{vistaAmbiente.btnRegistrar}" action="#{vistaAmbiente.registrarAmbiente()}"  update="frm, message" >
                                         <p:confirm header="Confirmation" message="¿Está seguro que desea Registrar este ambiente?" icon="ui-icon-alert" />
                                         </p:commandButton>
 

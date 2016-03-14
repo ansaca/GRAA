@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -53,19 +54,36 @@
                                 <p:row>
 
                                     <p:column><h:outputText value="Id:"/></p:column>
-                                    <p:column><p:inputText id="txtIdTipoAmbiente"  binding="#{vistaTiposAmbientes.txtIdTipoAmbiente}" size="50" /></p:column>
+                                    <p:column><p:inputText id="txtIdTipoAmbiente"  value="#{vistaTiposAmbientes.txtIdTipoAmbiente}" size="25"  disabled="true"/></p:column>
 
                                     <p:column><h:outputText value="Nombre:" /></p:column>
-                                    <p:column><p:inputText id="txtNombreTipoAmbiente" binding="#{vistaTiposAmbientes.txtNombreTipoAmbiente}" size="50" /></p:column>
+                                    <p:column><p:inputText id="txtNombreTipoAmbiente" binding="#{vistaTiposAmbientes.txtNombreTipoAmbiente}" size="25" /></p:column>
 
                                 </p:row>
   
                                 <p:row>
                                     <p:column colspan="8" style="text-align: center;">
-                                        <p:commandButton value="Registrar" binding="#{vistaTiposAmbientes.btnRegistrar}"  update="frmTiposAmbientes" />
-                                        <p:commandButton value="Modificar" binding="#{vistaTiposAmbientes.btnModificar}" disabled="true"/>
-                                        <p:commandButton value="Eliminar" binding="#{vistaTiposAmbientes.btnEliminar}" disabled="true"/>
-                                        <p:commandButton value="Limpiar" binding="#{vistaTiposAmbientes.btnLimpiar}"  update="frmTiposAmbientes"/>
+                                        <p:growl id="message" showDetail="true" />
+                                        
+                                        <p:commandButton value="Registrar" binding="#{vistaTiposAmbientes.btnRegistrar}" action="#{vistaTiposAmbientes.registrarTipo()}" update="frmTiposAmbientes, message">
+                                        <p:confirm header="Confirmation" message="¿Está seguro que desea Registrar este Tipo de ambiente?" icon="ui-icon-alert" />
+                                       </p:commandButton>
+                                        
+                                        <p:commandButton value="Modificar" binding="#{vistaTiposAmbientes.btnModificar}" action="#{vistaTiposAmbientes.modificarTipoAmbiente()}" update="frmTiposAmbientes, message" disabled="true">
+                                        <p:confirm header="Confirmation" message="¿Está seguro que desea Modificar este Tipo de ambiente?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+                                        
+                                        <p:commandButton value="Eliminar" binding="#{vistaTiposAmbientes.btnEliminar}" action="#{vistaTiposAmbientes.eliminarTipoAmbiente()}" update="frmTiposAmbientes, message" disabled="true">
+                                      <p:confirm header="Confirmation" message="¿Está seguro que desea Eliminar este Tipo de ambiente?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+                                        
+                                        <p:commandButton value="Limpiar" binding="#{vistaTiposAmbientes.btnLimpiar}"  action="#{vistaTiposAmbientes.limpiar()}" update="frmTiposAmbientes, message"/>
+                                    
+                                                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </p:confirmDialog>
+                                    
                                     </p:column>
                                 </p:row>
                                 

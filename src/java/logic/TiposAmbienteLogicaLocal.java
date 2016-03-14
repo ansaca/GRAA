@@ -7,7 +7,6 @@ package logic;
 
 import java.util.List;
 import javax.ejb.Local;
-import model.Sede;
 import model.Tipoambiente;
 
 /**
@@ -20,7 +19,7 @@ public interface TiposAmbienteLogicaLocal {
     void crear(Tipoambiente tipoAmbiente) throws Exception;
     void editar(Tipoambiente tipoAmbiente) throws  Exception;
     void eliminar(Tipoambiente tipoAmbiente) throws Exception;
-    Sede consultarCodigo(Integer idTipoAmbiente) throws Exception;
+    Tipoambiente consultarCodigo(Integer idTipoAmbiente) throws Exception;
     List<Tipoambiente> consultarTodo() throws  Exception;
     
 }
