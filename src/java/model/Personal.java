@@ -177,7 +177,11 @@ public class Personal implements Serializable {
     }
 
     public Date getFechanacimientopersonal() {
-        return fechanacimientopersonal;
+        try{
+        return new java.sql.Date(fechanacimientopersonal.getTime());
+        }catch(NullPointerException n){
+            return null;
+        }
     }
 
     public void setFechanacimientopersonal(Date fechanacimientopersonal) {
