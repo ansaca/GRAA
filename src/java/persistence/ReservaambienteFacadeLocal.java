@@ -30,4 +30,6 @@ public interface ReservaambienteFacadeLocal {
 
     int count();
     
+    List<Reservaambiente> findxIdAmbiente(Integer ambiente);
+    
 }

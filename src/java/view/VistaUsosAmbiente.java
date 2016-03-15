@@ -5,32 +5,26 @@
  */
 package view;
 
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
-import logic.FuncionarioLogicaLocal;
-import logic.PersonalLogicaLocal;
 import logic.SedeLogicaLocal;
 import logic.UsosAmbienteLogicaLocal;
-import model.Funcionario;
-import model.Sede;
 import model.Usodeambientes;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
-import org.primefaces.event.SelectEvent;
 
 /**
  *
  * @author G40-80
  */
-@Named(value = "vistaUsosAmbiente")
-@Dependent
+@ManagedBean
+@ViewScoped
 public class VistaUsosAmbiente {
 
    @EJB

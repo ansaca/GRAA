@@ -5,9 +5,11 @@
  */
 package persistence;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import model.Reservaambiente;
 
 /**
@@ -26,6 +28,13 @@ public class ReservaambienteFacade extends AbstractFacade<Reservaambiente> imple
 
     public ReservaambienteFacade() {
         super(Reservaambiente.class);
+    }
+
+    @Override
+    public List<Reservaambiente> findxIdAmbiente(Integer ambiente) {
+        String consulta = "select r from Reservaambiente r where r.codigoambiente.codigoambiente="+ambiente;
+        Query query = em.createQuery(consulta);
+        return query.getResultList();
     }
     
 }

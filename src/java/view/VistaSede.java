@@ -6,34 +6,22 @@
  */
 package view;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.faces.model.SelectItemGroup;
 import logic.FuncionarioLogicaLocal;
 import logic.PersonalLogicaLocal;
 import logic.SedeLogicaLocal;
-import model.Ambientedeaprendizaje;
 import model.Funcionario;
-import model.Personal;
-import model.Reservaambiente;
 import model.Sede;
-import model.Tipoambiente;
-import model.Usodeambientes;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.SelectEvent;
