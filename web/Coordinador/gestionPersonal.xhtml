@@ -94,7 +94,15 @@
                                     <p:column><h:outputText value="Lugar de nacimiento" /></p:column>
                                      <p:column><p:inputText id="txtLugarNacimientoPersonal"  binding="#{vistaPersonal.txtLugarNacimientoPersonal}" size="20" /></p:column>
                                    
-                                      
+                                       <p:column width="20"><h:outputText value="Rol:" /></p:column>
+                                       <p:column>  <p:selectOneMenu id="comboRol" value="#{vistaPersonal.comboRol}">
+                                               <f:selectItems value="#{vistaPersonal.combosRol}" />
+                                        </p:selectOneMenu> </p:column>
+                                       
+                                       <p:column width="20" visible="false"><h:outputText value="Tipo de coordinador:" /></p:column>
+                                       <p:column>  <p:selectOneMenu id="comboTipoCoordinador" value="#{vistaPersonal.comboTipoCoordinador}" disabled="true" >
+                                               <f:selectItems value="#{vistaPersonal.combosTipoCoordinador}" />
+                                        </p:selectOneMenu> </p:column>
                                      
                                 </p:row>
                                 

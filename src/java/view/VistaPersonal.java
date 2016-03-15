@@ -5,17 +5,21 @@
  */
 package view;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import logic.PersonalLogicaLocal;
 import model.Ambientedeaprendizaje;
+import model.Coordinador;
 import model.Personal;
 import model.Reservaambiente;
 import model.Sede;
@@ -56,8 +60,56 @@ public class VistaPersonal {
     private CommandButton btnEliminar;
     private CommandButton btnLimpiar;
     
+    //Combo box rol
+    private String comboRol;  
+    private List<SelectItem> combosRol; 
+    
+     //Combo box tipo coordinador
+    private String comboTipoCoordinador;  
+    private List<SelectItem> combosTipoCoordinador; 
     
     public VistaPersonal() {
+
+    }
+    
+      @PostConstruct
+    public void Init()
+    {
+         llenarComboRol();
+    } 
+
+    public String getComboTipoCoordinador() {
+        return comboTipoCoordinador;
+    }
+
+    public void setComboTipoCoordinador(String comboTipoCoordinador) {
+        this.comboTipoCoordinador = comboTipoCoordinador;
+    }
+
+    public List<SelectItem> getCombosTipoCoordinador() {
+        return combosTipoCoordinador;
+    }
+
+    public void setCombosTipoCoordinador(List<SelectItem> combosTipoCoordinador) {
+        this.combosTipoCoordinador = combosTipoCoordinador;
+    }
+    
+    
+
+    public String getComboRol() {
+        return comboRol;
+    }
+
+    public void setComboRol(String comboRol) {
+        this.comboRol = comboRol;
+    }
+
+    public List<SelectItem> getCombosRol() {
+        return combosRol;
+    }
+
+    public void setCombosRol(List<SelectItem> combosRol) {
+        this.combosRol = combosRol;
     }
 
     public PersonalLogicaLocal getPersonalDAO() {
@@ -260,6 +312,29 @@ public class VistaPersonal {
 
                     //si todo sale bien aplique esto
                     addMessage("Exito", "El personal se ha Registrado con éxito.");
+                    
+                    if(comboRol.equals("Coordinador"))
+                    {
+                        
+                    }else if (comboRol.equals("Funcionario"))
+                    {
+                        //habilitar combobox tipo coordinador
+                        
+                        Coordinador c = new Coordinador();
+                        c.setDocumentocoordinador(cedula);
+                     //   c.setTipocoordinador(telefono);
+                        
+                        
+                    }else if(comboRol.equals("Instructor"))
+                    {
+                        
+                    }else if(comboRol.equals("Guarda"))
+                    {
+                        
+                    }
+                    
+                    
+                    
                     limpiar();
 
                 } catch (Exception e5) {
@@ -376,6 +451,8 @@ public class VistaPersonal {
         btnModificar.setDisabled(true);
         btnEliminar.setDisabled(true); 
         txtCedulaPersonal.setDisabled(false);
+        
+        llenarComboRol();
     }
     
 
@@ -403,4 +480,39 @@ public class VistaPersonal {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+     
+     public void llenarComboRol()
+{ 
+      combosRol=null;
+        SelectItem si; //este sera un nuevo item
+        List<SelectItem> datos = new ArrayList<SelectItem>();  //esta es la lista que alojara los items nuevos
+
+        
+        si = new SelectItem();  //creamos nuevo item
+        si.setLabel("Ninguno"); // descripcion del nuevo item
+        si.setValue("Ninguno"); //valor del nuevo item
+        datos.add(si); // añadimos el nuevo item a la lista de items
+            
+        si = new SelectItem();  //creamos nuevo item
+        si.setLabel("Coordinador"); // descripcion del nuevo item
+        si.setValue("Coordinador"); //valor del nuevo item
+        datos.add(si); // añadimos el nuevo item a la lista de items
+        
+         si = new SelectItem();  //creamos nuevo item
+        si.setLabel("Funcionario"); // descripcion del nuevo item
+        si.setValue("Funcionario"); //valor del nuevo item
+        datos.add(si);
+        
+         si = new SelectItem();  //creamos nuevo item
+        si.setLabel("Instructor"); // descripcion del nuevo item
+        si.setValue("Instructor"); //valor del nuevo item
+        datos.add(si);
+        
+         si = new SelectItem();  //creamos nuevo item
+        si.setLabel("Guarda"); // descripcion del nuevo item
+        si.setValue("Guarda"); //valor del nuevo item
+        datos.add(si);
+        
+        combosRol=datos;
+}
 }
