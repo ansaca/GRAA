@@ -5,6 +5,7 @@
  */
 package view;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,18 +15,19 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import logic.CoordinadorLogicaLocal;
 import logic.PersonalLogicaLocal;
-import model.Ambientedeaprendizaje;
+import model.Area;
 import model.Coordinador;
+import model.Funcionario;
+import model.Guarda;
+import model.Instructor;
 import model.Personal;
-import model.Reservaambiente;
-import model.Sede;
-import model.Tipoambiente;
-import model.Usodeambientes;
 import org.primefaces.component.calendar.Calendar;
+import org.primefaces.component.column.Column;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.SelectEvent;
@@ -35,11 +37,14 @@ import org.primefaces.event.SelectEvent;
  * @author andres
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class VistaPersonal {
 
     @EJB
     public PersonalLogicaLocal personalDAO;
+    
+    @EJB
+    public CoordinadorLogicaLocal coordinadorDAO;
     
     private InputText txtCedulaPersonal;
     private InputText txtNombrePersonal;
@@ -68,6 +73,108 @@ public class VistaPersonal {
     private String comboTipoCoordinador;  
     private List<SelectItem> combosTipoCoordinador; 
     
+    //mandar a coordinador
+    public String cedulaRetornar;
+    
+    //salidas de texto    
+    private Column columnaRol;
+    private Column columnaLabelRol;
+    
+    private Column columnaLabelRegistrarComo;
+    private Column columnaComboRegistrarComo;
+    
+    //combobox registrar como
+    private String comboRegistrarComo;  
+    private List<SelectItem> combosRegistrarComo; 
+
+        private CommandButton btnRegistrarComo;
+    
+    
+    
+    
+    
+    
+    
+    //en el xhtml de coordinador
+    public InputText txtCedulaPersonalCoordinador;
+    public InputText txtTipoCoordinador;
+    
+    private List<Coordinador> listaCoordinador;
+    private Coordinador coordinadorSeleccionado;
+    
+    private CommandButton btnRegistrarCoordinador;
+    private CommandButton btnModificarCoordinador;
+    private CommandButton btnEliminarCoordinador;
+    private CommandButton btnLimpiarCoordinador;
+    
+    
+    
+    
+    
+    
+    
+     //en el xhtml de Funcionarios
+    public InputText txtCedulaPersonalFuncionario;
+    
+    //lista de tipo area para sacar todos los nombres de las areas registradas
+    List<Area> listaArea;
+    
+    //combobox para mostrar el tipo de area
+    private String comboArea;  
+    private List<SelectItem> combosArea; 
+    
+    private List<Funcionario> listaFuncionarios;
+    private Funcionario funcionarioSeleccionado;
+    
+    private CommandButton btnRegistrarFuncionario;
+    private CommandButton btnModificarFuncionario;
+    private CommandButton btnEliminarFuncionario;
+    private CommandButton btnLimpiarFuncionario;
+    
+    
+    
+    
+    
+    
+     //en el xhtml de Instructor
+    public InputText txtCedulaPersonalInstructor;
+   
+    //combobox tipo de instructor
+    private String comboTipoInstructor;  
+    private List<SelectItem> combosTipoInstructor; 
+    
+     public InputText txtPerfilOcupacionalInstructor;
+     public InputText txtLogroInstructor;
+    
+    private List<Instructor> listaInstructor;
+    private Instructor InstructorSeleccionado;
+    
+    private CommandButton btnRegistrarInstructor;
+    private CommandButton btnModificarInstructor;
+    private CommandButton btnEliminarInstructor;
+    private CommandButton btnLimpiarInstructor;
+    
+    
+    
+    
+    
+    
+    
+     //en el xhtml de Guarda
+    public InputText txtCedulaPersonalGuarda;
+    
+    private List<Guarda> listaGuarda;
+    private Guarda GuardaSeleccionado;
+    
+    private CommandButton btnRegistrarGuarda;
+    private CommandButton btnEliminarGuarda;
+    private CommandButton btnLimpiarGuarda;
+    
+    
+    
+    
+    
+    
     public VistaPersonal() {
 
     }
@@ -78,6 +185,375 @@ public class VistaPersonal {
          llenarComboRol();
     } 
 
+    public Column getColumnaLabelRol() {
+        return columnaLabelRol;
+    }
+
+    public void setColumnaLabelRol(Column columnaLabelRol) {
+        this.columnaLabelRol = columnaLabelRol;
+    }
+
+    public String getComboRegistrarComo() {
+        return comboRegistrarComo;
+    }
+
+    public void setComboRegistrarComo(String comboRegistrarComo) {
+        this.comboRegistrarComo = comboRegistrarComo;
+    }
+
+    public List<SelectItem> getCombosRegistrarComo() {
+        return combosRegistrarComo;
+    }
+
+    public void setCombosRegistrarComo(List<SelectItem> combosRegistrarComo) {
+        this.combosRegistrarComo = combosRegistrarComo;
+    }
+
+    public Column getColumnaLabelRegistrarComo() {
+        return columnaLabelRegistrarComo;
+    }
+
+    public void setColumnaLabelRegistrarComo(Column columnaLabelRegistrarComo) {
+        this.columnaLabelRegistrarComo = columnaLabelRegistrarComo;
+    }
+
+    public Column getColumnaComboRegistrarComo() {
+        return columnaComboRegistrarComo;
+    }
+
+    public void setColumnaComboRegistrarComo(Column columnaComboRegistrarComo) {
+        this.columnaComboRegistrarComo = columnaComboRegistrarComo;
+    }
+
+    public CommandButton getBtnRegistrarComo() {
+        return btnRegistrarComo;
+    }
+
+    public void setBtnRegistrarComo(CommandButton btnRegistrarComo) {
+        this.btnRegistrarComo = btnRegistrarComo;
+    }
+    
+    
+
+    public Column getColumnaRol() {
+        return columnaRol;
+    }
+
+    public void setColumnaRol(Column columnaRol) {
+        this.columnaRol = columnaRol;
+    }
+    
+    
+    public CoordinadorLogicaLocal getCoordinadorDAO() {
+        return coordinadorDAO;
+    }
+
+    public void setCoordinadorDAO(CoordinadorLogicaLocal coordinadorDAO) {
+        this.coordinadorDAO = coordinadorDAO;
+    }
+
+    public InputText getTxtCedulaPersonalFuncionario() {
+        return txtCedulaPersonalFuncionario;
+    }
+
+    public void setTxtCedulaPersonalFuncionario(InputText txtCedulaPersonalFuncionario) {
+        this.txtCedulaPersonalFuncionario = txtCedulaPersonalFuncionario;
+    }
+
+    public List<Area> getListaArea() {
+        return listaArea;
+    }
+
+    public void setListaArea(List<Area> listaArea) {
+        this.listaArea = listaArea;
+    }
+
+    public String getComboArea() {
+        return comboArea;
+    }
+
+    public void setComboArea(String comboArea) {
+        this.comboArea = comboArea;
+    }
+
+    public List<SelectItem> getCombosArea() {
+        return combosArea;
+    }
+
+    public void setCombosArea(List<SelectItem> combosArea) {
+        this.combosArea = combosArea;
+    }
+
+    public List<Funcionario> getListaFuncionarios() {
+        return listaFuncionarios;
+    }
+
+    public void setListaFuncionarios(List<Funcionario> listaFuncionarios) {
+        this.listaFuncionarios = listaFuncionarios;
+    }
+
+    public Funcionario getFuncionarioSeleccionado() {
+        return funcionarioSeleccionado;
+    }
+
+    public void setFuncionarioSeleccionado(Funcionario funcionarioSeleccionado) {
+        this.funcionarioSeleccionado = funcionarioSeleccionado;
+    }
+
+    public CommandButton getBtnRegistrarFuncionario() {
+        return btnRegistrarFuncionario;
+    }
+
+    public void setBtnRegistrarFuncionario(CommandButton btnRegistrarFuncionario) {
+        this.btnRegistrarFuncionario = btnRegistrarFuncionario;
+    }
+
+    public CommandButton getBtnModificarFuncionario() {
+        return btnModificarFuncionario;
+    }
+
+    public void setBtnModificarFuncionario(CommandButton btnModificarFuncionario) {
+        this.btnModificarFuncionario = btnModificarFuncionario;
+    }
+
+    public CommandButton getBtnEliminarFuncionario() {
+        return btnEliminarFuncionario;
+    }
+
+    public void setBtnEliminarFuncionario(CommandButton btnEliminarFuncionario) {
+        this.btnEliminarFuncionario = btnEliminarFuncionario;
+    }
+
+    public CommandButton getBtnLimpiarFuncionario() {
+        return btnLimpiarFuncionario;
+    }
+
+    public void setBtnLimpiarFuncionario(CommandButton btnLimpiarFuncionario) {
+        this.btnLimpiarFuncionario = btnLimpiarFuncionario;
+    }
+
+    public InputText getTxtCedulaPersonalInstructor() {
+        return txtCedulaPersonalInstructor;
+    }
+
+    public void setTxtCedulaPersonalInstructor(InputText txtCedulaPersonalInstructor) {
+        this.txtCedulaPersonalInstructor = txtCedulaPersonalInstructor;
+    }
+
+    public String getComboTipoInstructor() {
+        return comboTipoInstructor;
+    }
+
+    public void setComboTipoInstructor(String comboTipoInstructor) {
+        this.comboTipoInstructor = comboTipoInstructor;
+    }
+
+    public List<SelectItem> getCombosTipoInstructor() {
+        return combosTipoInstructor;
+    }
+
+    public void setCombosTipoInstructor(List<SelectItem> combosTipoInstructor) {
+        this.combosTipoInstructor = combosTipoInstructor;
+    }
+
+    public InputText getTxtPerfilOcupacionalInstructor() {
+        return txtPerfilOcupacionalInstructor;
+    }
+
+    public void setTxtPerfilOcupacionalInstructor(InputText txtPerfilOcupacionalInstructor) {
+        this.txtPerfilOcupacionalInstructor = txtPerfilOcupacionalInstructor;
+    }
+
+    public InputText getTxtLogroInstructor() {
+        return txtLogroInstructor;
+    }
+
+    public void setTxtLogroInstructor(InputText txtLogroInstructor) {
+        this.txtLogroInstructor = txtLogroInstructor;
+    }
+
+    public List<Instructor> getListaInstructor() {
+        return listaInstructor;
+    }
+
+    public void setListaInstructor(List<Instructor> listaInstructor) {
+        this.listaInstructor = listaInstructor;
+    }
+
+    public Instructor getInstructorSeleccionado() {
+        return InstructorSeleccionado;
+    }
+
+    public void setInstructorSeleccionado(Instructor InstructorSeleccionado) {
+        this.InstructorSeleccionado = InstructorSeleccionado;
+    }
+
+    public CommandButton getBtnRegistrarInstructor() {
+        return btnRegistrarInstructor;
+    }
+
+    public void setBtnRegistrarInstructor(CommandButton btnRegistrarInstructor) {
+        this.btnRegistrarInstructor = btnRegistrarInstructor;
+    }
+
+    public CommandButton getBtnModificarInstructor() {
+        return btnModificarInstructor;
+    }
+
+    public void setBtnModificarInstructor(CommandButton btnModificarInstructor) {
+        this.btnModificarInstructor = btnModificarInstructor;
+    }
+
+    public CommandButton getBtnEliminarInstructor() {
+        return btnEliminarInstructor;
+    }
+
+    public void setBtnEliminarInstructor(CommandButton btnEliminarInstructor) {
+        this.btnEliminarInstructor = btnEliminarInstructor;
+    }
+
+    public CommandButton getBtnLimpiarInstructor() {
+        return btnLimpiarInstructor;
+    }
+
+    public void setBtnLimpiarInstructor(CommandButton btnLimpiarInstructor) {
+        this.btnLimpiarInstructor = btnLimpiarInstructor;
+    }
+
+    public InputText getTxtCedulaPersonalGuarda() {
+        return txtCedulaPersonalGuarda;
+    }
+
+    public void setTxtCedulaPersonalGuarda(InputText txtCedulaPersonalGuarda) {
+        this.txtCedulaPersonalGuarda = txtCedulaPersonalGuarda;
+    }
+
+    public List<Guarda> getListaGuarda() {
+        return listaGuarda;
+    }
+
+    public void setListaGuarda(List<Guarda> listaGuarda) {
+        this.listaGuarda = listaGuarda;
+    }
+
+    public Guarda getGuardaSeleccionado() {
+        return GuardaSeleccionado;
+    }
+
+    public void setGuardaSeleccionado(Guarda GuardaSeleccionado) {
+        this.GuardaSeleccionado = GuardaSeleccionado;
+    }
+
+    public CommandButton getBtnRegistrarGuarda() {
+        return btnRegistrarGuarda;
+    }
+
+    public void setBtnRegistrarGuarda(CommandButton btnRegistrarGuarda) {
+        this.btnRegistrarGuarda = btnRegistrarGuarda;
+    }
+
+    public CommandButton getBtnEliminarGuarda() {
+        return btnEliminarGuarda;
+    }
+
+    public void setBtnEliminarGuarda(CommandButton btnEliminarGuarda) {
+        this.btnEliminarGuarda = btnEliminarGuarda;
+    }
+
+    public CommandButton getBtnLimpiarGuarda() {
+        return btnLimpiarGuarda;
+    }
+
+    public void setBtnLimpiarGuarda(CommandButton btnLimpiarGuarda) {
+        this.btnLimpiarGuarda = btnLimpiarGuarda;
+    }
+
+    
+    
+    public List<Coordinador> getListaCoordinador() {
+       if (listaCoordinador == null) {
+            try {
+                listaCoordinador = coordinadorDAO.consultarTodo();
+            } catch (Exception ex) {
+                Logger.getLogger(VistaPersonal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return listaCoordinador;
+    }
+
+    public void setListaCoordinador(List<Coordinador> listaCoordinador) {
+        this.listaCoordinador = listaCoordinador;
+    }
+
+    public Coordinador getCoordinadorSeleccionado() {
+        return coordinadorSeleccionado;
+    }
+
+    public void setCoordinadorSeleccionado(Coordinador coordinadorSeleccionado) {
+        this.coordinadorSeleccionado = coordinadorSeleccionado;
+    }
+
+    public CommandButton getBtnRegistrarCoordinador() {
+        return btnRegistrarCoordinador;
+    }
+
+    public void setBtnRegistrarCoordinador(CommandButton btnRegistrarCoordinador) {
+        this.btnRegistrarCoordinador = btnRegistrarCoordinador;
+    }
+
+    public CommandButton getBtnModificarCoordinador() {
+        return btnModificarCoordinador;
+    }
+
+    public void setBtnModificarCoordinador(CommandButton btnModificarCoordinador) {
+        this.btnModificarCoordinador = btnModificarCoordinador;
+    }
+
+    public CommandButton getBtnEliminarCoordinador() {
+        return btnEliminarCoordinador;
+    }
+
+    public void setBtnEliminarCoordinador(CommandButton btnEliminarCoordinador) {
+        this.btnEliminarCoordinador = btnEliminarCoordinador;
+    }
+
+    public CommandButton getBtnLimpiarCoordinador() {
+        return btnLimpiarCoordinador;
+    }
+
+    public void setBtnLimpiarCoordinador(CommandButton btnLimpiarCoordinador) {
+        this.btnLimpiarCoordinador = btnLimpiarCoordinador;
+    }
+    
+    
+
+    public InputText getTxtCedulaPersonalCoordinador() {
+        return txtCedulaPersonalCoordinador;
+    }
+
+    public void setTxtCedulaPersonalCoordinador(InputText txtCedulaPersonalCoordinador) {
+        this.txtCedulaPersonalCoordinador = txtCedulaPersonalCoordinador;
+    }
+
+    public InputText getTxtTipoCoordinador() {
+        return txtTipoCoordinador;
+    }
+
+    public void setTxtTipoCoordinador(InputText txtTipoCoordinador) {
+        this.txtTipoCoordinador = txtTipoCoordinador;
+    }
+
+    
+    
+    public String getCedulaRetornar() {
+       
+        return cedulaRetornar;
+    }
+
+    public void setCedulaRetornar(String cedulaRetornar) {
+        this.cedulaRetornar = cedulaRetornar;
+    }
+    
     public String getComboTipoCoordinador() {
         return comboTipoCoordinador;
     }
@@ -259,31 +735,29 @@ public class VistaPersonal {
     }
     
     public void registrarPersonal() {
-
-        long cedula = 0;
-        String nombre = "";
-        String apellidos = "";
-        String direccion = "";
-        String correo = "";
-        String telefono = "";
-        String clave = "";
-        Date fechaNacimiento;
-        String lugarNacimiento = "";
-
-        int excepciones = 0;
-
-       if (txtCedulaPersonal.getValue().toString().equals("") || txtNombrePersonal.getValue().toString().equals("") || txtApellidoPersonal.getValue().toString().equals("") || txtDireccionPersonal.getValue().toString().equals("") || txtCorreoPersonal.getValue().toString().equals("") || txtTelefonoPersonal.getValue().toString().equals("") || txtClavePersonal.getValue().toString().equals("") || txtLugarNacimientoPersonal.getValue().toString().equals("") ) 
-        {
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Todos son obligatorios."));
-        }
-        else
-        {
-          
-              try {
-                cedula = Long.parseLong(txtCedulaPersonal.getValue().toString());
+        
+            long cedula = 0;
+            String nombre = "";
+            String apellidos = "";
+            String direccion = "";
+            String correo = "";
+            String telefono = "";
+            String clave = "";
+            Date fechaNacimiento;
+            String lugarNacimiento = "";
+            int excepciones = 0;
+            if (txtCedulaPersonal.getValue().toString().equals("") || txtNombrePersonal.getValue().toString().equals("") || txtApellidoPersonal.getValue().toString().equals("") || txtDireccionPersonal.getValue().toString().equals("") || txtCorreoPersonal.getValue().toString().equals("") || txtTelefonoPersonal.getValue().toString().equals("") || txtClavePersonal.getValue().toString().equals("") || txtLugarNacimientoPersonal.getValue().toString().equals("") )
+            {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Todos los campos son obligatorios."));
+            }
+            else
+            {
+            
+            try {
+            cedula = Long.parseLong(txtCedulaPersonal.getValue().toString());
             } catch (Exception error1) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "El campo cedula solo permite numeros."));
-                excepciones++;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "El campo cedula solo permite numeros."));
+            excepciones++;
             }
 
             nombre = txtNombrePersonal.getValue().toString();
@@ -294,58 +768,63 @@ public class VistaPersonal {
             clave = txtClavePersonal.getValue().toString();
             fechaNacimiento = (Date) txtFechaNacimientoPersonal.getValue();
             lugarNacimiento = txtLugarNacimientoPersonal.getValue().toString();
-
+            
             if (excepciones == 0) {
-                try {
-                    Personal p = new Personal();
-                    p.setDocumentopersonal(cedula);
-                    p.setNombrepersonal(nombre);
-                    p.setApellidopersonal(apellidos);
-                    p.setDireccionpersonal(direccion);
-                    p.setCorreopersonal(correo);
-                    p.setClavepersonal(clave);
-                    p.setTelefonopersonal(telefono);
-                    p.setFechanacimientopersonal(fechaNacimiento);
-                    p.setLugarnacimientopersonal(lugarNacimiento);
-
-                    personalDAO.crear(p);
-
-                    //si todo sale bien aplique esto
-                    addMessage("Exito", "El personal se ha Registrado con éxito.");
-                    
-                    if(comboRol.equals("Coordinador"))
-                    {
-                        
-                    }else if (comboRol.equals("Funcionario"))
-                    {
-                        //habilitar combobox tipo coordinador
-                        
-                        Coordinador c = new Coordinador();
-                        c.setDocumentocoordinador(cedula);
-                     //   c.setTipocoordinador(telefono);
-                        
-                        
-                    }else if(comboRol.equals("Instructor"))
-                    {
-                        
-                    }else if(comboRol.equals("Guarda"))
-                    {
-                        
-                    }
-                    
-                    
-                    
-                    limpiar();
-
-                } catch (Exception e5) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error llenando los datos del nuevo personal."));
-                }
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Verifique los datos."));
+            try {
+            Personal p = new Personal();
+            p.setDocumentopersonal(cedula);
+            p.setNombrepersonal(nombre);
+            p.setApellidopersonal(apellidos);
+            p.setDireccionpersonal(direccion);
+            p.setCorreopersonal(correo);
+            p.setClavepersonal(clave);
+            p.setTelefonopersonal(telefono);
+            p.setFechanacimientopersonal(fechaNacimiento);
+            p.setLugarnacimientopersonal(lugarNacimiento);
+            cedulaRetornar=p.getDocumentopersonal()+"";
+            
+            personalDAO.crear(p);
+            
+            switch (comboRol) {
+                
+            case "Coordinador":
+            FacesContext.getCurrentInstance().getExternalContext().redirect("gestionCoordinador.xhtml");
+            mensajeBienvenidaCoordinador();
+            break;
+            
+            case "Funcionario":  
+            FacesContext.getCurrentInstance().getExternalContext().redirect("gestionFuncionario.xhtml");
+            break;
+            
+            
+            case "Instructor":
+            FacesContext.getCurrentInstance().getExternalContext().redirect("gestionInstructor.xhtml");
+            break;
+            
+            case "Guarda":
+            FacesContext.getCurrentInstance().getExternalContext().redirect("gestionGuarda.xhtml");
+            break;
+            
+            case "Ninguno":
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "El personal se ha registrado con éxito."));
+            break;              
+            
+            default:
+            break;
+            
             }
-        
-        }
 
+            limpiar();
+            
+            } catch (Exception e5) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error llenando los datos del nuevo personal."+e5.getMessage()));
+            }
+            } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Verifique los datos."));
+            }
+            
+            }
+           
     }
     
     public void modificarPersonal()
@@ -453,12 +932,18 @@ public class VistaPersonal {
         txtCedulaPersonal.setDisabled(false);
         
         llenarComboRol();
+        
+         columnaRol.setRendered(true);
+        columnaLabelRol.setRendered(true);
+        
+        columnaComboRegistrarComo.setRendered(false); 
+       columnaLabelRegistrarComo.setRendered(false);
     }
     
 
     public void OnRowSelect(SelectEvent evt)
     {
-           Personal p = personalSeleccionado;
+        Personal p = personalSeleccionado;
         txtCedulaPersonal.setValue(p.getDocumentopersonal());
         txtNombrePersonal.setValue(p.getNombrepersonal());
         txtApellidoPersonal.setValue(p.getApellidopersonal());
@@ -467,12 +952,19 @@ public class VistaPersonal {
         txtTelefonoPersonal.setValue(p.getTelefonopersonal());
         txtClavePersonal.setValue(p.getClavepersonal());
         txtFechaNacimientoPersonal.setValue(p.getFechanacimientopersonal());
-       txtLugarNacimientoPersonal.setValue(p.getLugarnacimientopersonal());
+        txtLugarNacimientoPersonal.setValue(p.getLugarnacimientopersonal());
 
         btnRegistrar.setDisabled(true);
         btnModificar.setDisabled(false);
         btnEliminar.setDisabled(false);
         txtCedulaPersonal.setDisabled(true);
+ 
+        columnaRol.setRendered(false);
+        columnaLabelRol.setRendered(false);
+                
+       columnaComboRegistrarComo.setRendered(true); 
+       columnaLabelRegistrarComo.setRendered(true);
+       llenarComboRegistrarComo();
 
     }
     
@@ -515,4 +1007,301 @@ public class VistaPersonal {
         
         combosRol=datos;
 }
+     
+     public void llenarComboRegistrarComo()
+     {
+        combosRegistrarComo=null;
+        SelectItem si; //este sera un nuevo item
+        List<SelectItem> datos = new ArrayList<SelectItem>();  //esta es la lista que alojara los items nuevos
+            
+        si = new SelectItem();  //creamos nuevo item
+        si.setLabel("Coordinador"); // descripcion del nuevo item
+        si.setValue("Coordinador"); //valor del nuevo item
+        datos.add(si); // añadimos el nuevo item a la lista de items
+        
+         si = new SelectItem();  //creamos nuevo item
+        si.setLabel("Funcionario"); // descripcion del nuevo item
+        si.setValue("Funcionario"); //valor del nuevo item
+        datos.add(si);
+        
+         si = new SelectItem();  //creamos nuevo item
+        si.setLabel("Instructor"); // descripcion del nuevo item
+        si.setValue("Instructor"); //valor del nuevo item
+        datos.add(si);
+        
+         si = new SelectItem();  //creamos nuevo item
+        si.setLabel("Guarda"); // descripcion del nuevo item
+        si.setValue("Guarda"); //valor del nuevo item
+        datos.add(si);
+        
+        combosRegistrarComo=datos;
+     }
+     
+     
+     public void registrarComo()
+     {
+         
+    switch (comboRegistrarComo) {
+                
+            case "Coordinador":
+    {
+        try {
+            cedulaRetornar=txtCedulaPersonal.getValue().toString();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("gestionCoordinador.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(VistaPersonal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+         
+            break;
+            
+            case "Funcionario":  
+    {
+        try {
+            cedulaRetornar=txtCedulaPersonal.getValue().toString();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("gestionFuncionario.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(VistaPersonal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+            break;
+            
+            
+            case "Instructor":
+    {
+        try {
+            cedulaRetornar=txtCedulaPersonal.getValue().toString();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("gestionInstructor.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(VistaPersonal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+            break;
+            
+            case "Guarda":
+    {
+        try {
+            cedulaRetornar=txtCedulaPersonal.getValue().toString();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("gestionGuarda.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(VistaPersonal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+            break;         
+            
+            default:
+            break;
+            
+            }
+         
+     }
+     
+             
+             
+             
+             
+     
+     
+     
+     
+ // xhtml coordinador
+     
+     public void registrarCoordinador()
+     {
+            long cedula = 0;
+            String Tipo = "";
+            
+            int excepciones = 0;
+            
+            if (txtCedulaPersonalCoordinador.getValue().toString().equals("") || txtTipoCoordinador.getValue().toString().equals("") )
+            {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Todos los campos son obligatorios."));
+            }
+            else
+            {
+            
+            try {
+            cedula = Long.parseLong(txtCedulaPersonalCoordinador.getValue().toString());
+            } catch (Exception error1) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "El campo cedula solo permite numeros."));
+            excepciones++;
+            }
+
+            Tipo = txtTipoCoordinador.getValue().toString();
+
+            if (excepciones == 0) {
+            try {
+            Coordinador c = new Coordinador();
+            c.setDocumentocoordinador(cedula);
+            c.setTipocoordinador(Tipo);
+
+            coordinadorDAO.crear(c);
+
+            //si todo sale bien aplique esto
+            addMessage("Exito", "El coordinador se ha Registrado con éxito.");
+            limpiarCoordinador();
+            
+            } catch (Exception e5) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error llenando los datos del nuevo Coordinador."+e5.getMessage()));
+            }
+            } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Verifique los datos."));
+            }
+            
+            }
+         
+         
+     }
+     
+     public void modificarCoordinador()
+     {
+         
+            long cedula = 0;
+            String Tipo = "";
+            
+            int excepciones = 0;
+            
+            if (txtCedulaPersonalCoordinador.getValue().toString().equals("") || txtTipoCoordinador.getValue().toString().equals("") )
+            {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Todos los campos son obligatorios."));
+            }
+            else
+            {
+            
+            try {
+            cedula = Long.parseLong(txtCedulaPersonalCoordinador.getValue().toString());
+            } catch (Exception error1) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "El campo cedula solo permite numeros."));
+            excepciones++;
+            }
+
+            Tipo = txtTipoCoordinador.getValue().toString();
+
+            if (excepciones == 0) {
+            try {
+            Coordinador c = new Coordinador();
+            c.setDocumentocoordinador(cedula);
+            c.setTipocoordinador(Tipo);
+
+            coordinadorDAO.modificar(c);
+
+            //si todo sale bien aplique esto
+            addMessage("Exito", "El coordinador se ha Modificado con éxito.");
+            limpiarCoordinador();
+            
+            } catch (Exception e5) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error llenando los datos del Coordinador a modificar."+e5.getMessage()));
+            }
+            } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Verifique los datos."));
+            }
+            
+            }
+         
+     }
+     
+     public void eliminarCoordinador()
+     {
+         long cedula = 0;
+            
+            int excepciones = 0;
+            
+            if (txtCedulaPersonalCoordinador.getValue().toString().equals(""))
+            {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Seleccione un coordinador para poderlo eliminar."));
+            }
+            else
+            {
+            
+            try {
+            cedula = Long.parseLong(txtCedulaPersonalCoordinador.getValue().toString());
+            } catch (Exception error1) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "El campo cedula solo permite numeros."));
+            excepciones++;
+            }
+
+            if (excepciones == 0) {
+            try {
+            Coordinador c = new Coordinador();
+            c.setDocumentocoordinador(cedula);
+
+            coordinadorDAO.eliminar(c);
+
+            //si todo sale bien aplique esto
+            addMessage("Exito", "El coordinador se ha Eliminado con éxito.");
+            limpiarCoordinador();
+            
+            } catch (Exception e5) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Error llenando los datos del Coordinador a eliminar."+e5.getMessage()));
+            }
+            } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "Verifique los datos."));
+            }
+            
+            }
+     }
+     
+     public void limpiarCoordinador()
+     {
+         listaCoordinador=null;
+         txtCedulaPersonalCoordinador.setDisabled(false);
+         txtCedulaPersonalCoordinador.setValue("");
+         txtTipoCoordinador.setValue("");
+         btnRegistrarCoordinador.setDisabled(false);
+         btnModificarCoordinador.setDisabled(true);
+         btnEliminarCoordinador.setDisabled(true);
+         
+         
+     }
+     
+    public void OnRowSelectCoordinador(SelectEvent evt)
+    {
+          Coordinador c = coordinadorSeleccionado;
+        txtCedulaPersonalCoordinador.setValue(c.getDocumentocoordinador());
+        txtTipoCoordinador.setValue(c.getTipocoordinador());
+
+        btnRegistrarCoordinador.setDisabled(true);
+        btnModificarCoordinador.setDisabled(false);
+        btnEliminarCoordinador.setDisabled(false);
+        txtCedulaPersonalCoordinador.setDisabled(true);
+
+    }
+     
+    
+    
+    //para el caso de funcionarios
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public void mensajeBienvenidaCoordinador()
+    {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "El personal se ha registrado con éxito, a continuación registrelo como Coordinador."));
+
+    }
+    
+     public void mensajeBienvenidaFuncionario()
+    {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "El personal se ha registrado con éxito, a continuación registrelo como Funcionario."));
+
+    }
+     
+      public void mensajeBienvenidaInstructor()
+    {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "El personal se ha registrado con éxito, a continuación registrelo como Instructor."));
+
+    }
+      
+       public void mensajeBienvenidaGuarda()
+    {
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "El personal se ha registrado con éxito, a continuación registrelo como Guarda."));
+
+    }
 }

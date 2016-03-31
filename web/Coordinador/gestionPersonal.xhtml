@@ -11,6 +11,7 @@
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
                 <title>GRAA-Gestion de Personal</title>
                 <link href="css/estilos.css" rel="stylesheet" type="text/css" /> 
+               <link rel="icon" type="image/gif" href="../images/favicon.gif" />
             </f:facet>
             
                 <script src="../javascript/cambioES.js"></script>
@@ -39,6 +40,10 @@
                                 <p:menuitem value="Gestion de tipos de Ambientes" outcome="gestionTiposAmbientes" />
                                 <p:menuitem value="Gestion de Sedes" outcome="gestionSedes" />
                                <p:menuitem value="Gestion de Ambientes" outcome="gestionAmbiente" />
+                               <p:menuitem value="Gestion de Coordinadores" outcome="gestionCoordinador" />
+                               <p:menuitem value="Gestion de Funcionarios" outcome="gestionFuncionario" />
+                               <p:menuitem value="Gestion de Instructores" outcome="gestionInstructor" />
+                               <p:menuitem value="Gestion de Guarda" outcome="gestionGuarda" />
 
                             </p:submenu>
 
@@ -56,16 +61,16 @@
                                 
                                 <p:row>
                                     <p:column><h:outputText value="Cedula:"/></p:column>
-                                    <p:column><p:inputText id="txtCedulaPersonal" binding="#{vistaPersonal.txtCedulaPersonal}" size="20" disabled="false" /></p:column>
+                                    <p:column><p:inputText id="txtCedulaPersonal" binding="#{vistaPersonal.txtCedulaPersonal}" size="25" disabled="false" /></p:column>
 
                                     <p:column><h:outputText value="Nombres:" /></p:column>
-                                    <p:column><p:inputText id="txtNombrePersonal" binding="#{vistaPersonal.txtNombrePersonal}" size="20" /></p:column>
+                                    <p:column><p:inputText id="txtNombrePersonal" binding="#{vistaPersonal.txtNombrePersonal}" size="25" /></p:column>
 
                                     <p:column><h:outputText value="Apellidos:" /></p:column>
-                                    <p:column><p:inputText id="txtApellidoPersonal"  binding="#{vistaPersonal.txtApellidoPersonal}" size="20" /></p:column>
+                                    <p:column><p:inputText id="txtApellidoPersonal"  binding="#{vistaPersonal.txtApellidoPersonal}" size="25" /></p:column>
 
                                     <p:column><h:outputText value="Direccion:" /></p:column>
-                                     <p:column><p:inputText id="txtDireccionPersonal"  binding="#{vistaPersonal.txtDireccionPersonal}" size="20" /></p:column>
+                                     <p:column><p:inputText id="txtDireccionPersonal"  binding="#{vistaPersonal.txtDireccionPersonal}" size="22" /></p:column>
 
                                      
                                 </p:row>
@@ -73,16 +78,18 @@
                                 <p:row>
                                     
                                     <p:column><h:outputText value="Correo:" /></p:column>
-                                     <p:column><p:inputText id="txtCorreoPersonal"  binding="#{vistaPersonal.txtCorreoPersonal}" size="20" /></p:column>
+                                     <p:column><p:inputText id="txtCorreoPersonal"  binding="#{vistaPersonal.txtCorreoPersonal}" size="25" /></p:column>
 
                                      <p:column><h:outputText value="Telefono:" /></p:column>
-                                     <p:column><p:inputText id="txtTelefonoPersonal"  binding="#{vistaPersonal.txtTelefonoPersonal}" size="20" /></p:column>
+                                     <p:column><p:inputText id="txtTelefonoPersonal"  binding="#{vistaPersonal.txtTelefonoPersonal}" size="25" /></p:column>
                                      
-                                     <p:column><h:outputText value="Clave:" /></p:column>
-                                     <p:column><p:inputText id="txtClavePersonal"  binding="#{vistaPersonal.txtClavePersonal}" size="20" /></p:column>
+                                     <p:column><p:outputLabel value="Clave:" /></p:column>
+                                     <p:column><p:inputText id="txtClavePersonal"  binding="#{vistaPersonal.txtClavePersonal}" size="25" /></p:column>
                                      
-                                     <p:column width="20"><h:outputText value="Fecha de nacimiento:" /></p:column>
-                                     <p:column> <p:calendar id="txtFechaNacimientoPersonal" binding="#{vistaPersonal.txtFechaNacimientoPersonal}" locale="es" pattern="yyyy/MM/dd" effect="fold" size="20"/> </p:column>
+                           
+                                     
+                                     <p:column width="25"><h:outputText value="Fecha de nacimiento:" /></p:column>
+                                     <p:column> <p:calendar id="txtFechaNacimientoPersonal" binding="#{vistaPersonal.txtFechaNacimientoPersonal}" locale="es" pattern="yyyy/MM/dd" effect="fold" size="22"/> </p:column>
                                    
                                     
                                      
@@ -92,35 +99,42 @@
                                 <p:row>
                                     
                                     <p:column><h:outputText value="Lugar de nacimiento" /></p:column>
-                                     <p:column><p:inputText id="txtLugarNacimientoPersonal"  binding="#{vistaPersonal.txtLugarNacimientoPersonal}" size="20" /></p:column>
+                                     <p:column><p:inputText id="txtLugarNacimientoPersonal"  binding="#{vistaPersonal.txtLugarNacimientoPersonal}" size="25" /></p:column>
                                    
-                                       <p:column width="20"><h:outputText value="Rol:" /></p:column>
-                                       <p:column>  <p:selectOneMenu id="comboRol" value="#{vistaPersonal.comboRol}">
+                                     <p:column width="25" binding="#{vistaPersonal.columnaLabelRol}"><p:outputLabel value="Rol:"  /></p:column>
+                                     <p:column width="25" binding="#{vistaPersonal.columnaRol}" >  <p:selectOneMenu value="#{vistaPersonal.comboRol}"   >
                                                <f:selectItems value="#{vistaPersonal.combosRol}" />
                                         </p:selectOneMenu> </p:column>
+                                     
+                                      <p:column binding="#{vistaPersonal.columnaLabelRegistrarComo}" rendered="false"><h:outputText value="Registrar como:" /></p:column>
+                                    <p:column binding="#{vistaPersonal.columnaComboRegistrarComo}" rendered="false" >  <p:selectOneMenu value="#{vistaPersonal.comboRegistrarComo}"   >
+                                            <f:selectItems value="#{vistaPersonal.combosRegistrarComo}" />
+                                        </p:selectOneMenu>     
+                                    
+                                        <p:commandButton  value="Registrar Como" binding="#{vistaPersonal.btnRegistrarComo}" action="#{vistaPersonal.registrarComo()}" update="frmPersonal, message" >      
+                                             <p:confirm header="Confirmation" message="¿Está seguro que desea Registrar este personal con el Rol seleccionado?" icon="ui-icon-alert" />
+                                         </p:commandButton>
+                                    
+                                    </p:column>
                                        
-                                       <p:column width="20" visible="false"><h:outputText value="Tipo de coordinador:" /></p:column>
-                                       <p:column>  <p:selectOneMenu id="comboTipoCoordinador" value="#{vistaPersonal.comboTipoCoordinador}" disabled="true" >
-                                               <f:selectItems value="#{vistaPersonal.combosTipoCoordinador}" />
-                                        </p:selectOneMenu> </p:column>
                                      
                                 </p:row>
                                 
                                 
                                 <p:row>
                                    <p:column colspan="8" style="text-align: center;">
-                                        
+                                       
                                          <p:growl id="message" showDetail="true" />
                                          
-                                         <p:commandButton value="Registrar" binding="#{vistaPersonal.btnRegistrar}" action="#{vistaPersonal.registrarPersonal()}"  update="frmPersonal, message" >
-                                        <p:confirm header="Confirmation" message="¿Está seguro que desea Registrar este personal?" icon="ui-icon-alert" />
-                                        </p:commandButton>
+                                         <p:commandButton value="Registrar Personal" binding="#{vistaPersonal.btnRegistrar}" action="#{vistaPersonal.registrarPersonal()}" update="frmPersonal, message" >      
+                                             <p:confirm header="Confirmation" message="¿Está seguro que desea Registrar este personal?" icon="ui-icon-alert" />
+                                         </p:commandButton>
 
-                                         <p:commandButton value="Modificar" binding="#{vistaPersonal.btnModificar}" action="#{vistaPersonal.modificarPersonal()}" update="message, frmPersonal" disabled="true">
+                                         <p:commandButton value="Modificar Personal" binding="#{vistaPersonal.btnModificar}" action="#{vistaPersonal.modificarPersonal()}" update="message, frmPersonal" disabled="true">
                                             <p:confirm header="Confirmation" message="¿Está seguro que desea modificar este personal?" icon="ui-icon-alert" />
                                         </p:commandButton>
 
-                                         <p:commandButton value="Eliminar" binding="#{vistaPersonal.btnEliminar}" action="#{vistaPersonal.eliminarPersonal()}" update="message, frmPersonal" disabled="true">
+                                         <p:commandButton value="Eliminar Personal" binding="#{vistaPersonal.btnEliminar}" action="#{vistaPersonal.eliminarPersonal()}" update="message, frmPersonal" disabled="true">
                                         <p:confirm header="Confirmation" message="¿Está seguro que desea eliminar este personal?" icon="ui-icon-alert" />
                                         </p:commandButton>
                                             
@@ -134,7 +148,7 @@
                                     </p:column>
                                 </p:row>
                                 
-                                
+                           
                           
                               
                                 
