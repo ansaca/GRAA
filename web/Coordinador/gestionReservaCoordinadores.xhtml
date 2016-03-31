@@ -11,9 +11,8 @@
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
                 <title>PrimeFaces</title>
                 <link href="css/estilos.css" rel="stylesheet" type="text/css" /> 
-                <link rel="icon" type="image/gif" href="../images/favicon.gif" />
             </f:facet>
-            <script src="javascript/cambioES.js" language="javascript" type="text/javascript"></script>
+            <script src="../javascript/cambioES.js" language="javascript" type="text/javascript"></script>
         </h:head>
 
         <h:body style="font-size: 12px;">
@@ -21,11 +20,11 @@
             <p:layout fullPage="true">
 
                 <p:layoutUnit  position="north" size="120"  resizable="true">
-                    <div style="color:#33ff33; 
+                    <div style="margin: auto;
+                         color:#00cc00; 
                               font-size: 40px; 
-                              background-image: url('../images/banner.png');
-                              background-size: 100% 86px; 
-                              height:86px; width: 100%;">
+                              background: -webkit-linear-gradient(bottom,  #999999,#cccccc, #e1e1e1, white);
+                              height:106px; width: 100%;">
                         <div style="padding: 10px 0px">
                             Gestion de reservas de ambiente de aprendizaje.
                         </div>
@@ -47,10 +46,6 @@
                                <p:menuitem value="Gestion de tipos de Ambientes" outcome="gestionTiposAmbientes"/>
                                <p:menuitem value="Gestion de Sedes" outcome="gestionSedes" />
                                <p:menuitem value="Gestion de Ambientes" outcome="gestionAmbiente" /> 
-                               <p:menuitem value="Gestion de Coordinadores" outcome="gestionCoordinador" />
-                               <p:menuitem value="Gestion de Funcionarios" outcome="gestionFuncionario" />
-                               <p:menuitem value="Gestion de Instructores" outcome="gestionInstructor" />
-                               <p:menuitem value="Gestion de Guarda" outcome="gestionGuarda" />
 
                             </p:submenu>
 
@@ -106,7 +101,7 @@
                                     
 
                                     <p:column><h:outputText value="Id Personal:"/></p:column>
-                                    <p:column><p:inputText id="txtPersonal" binding="#{vistaReservaAmbiente.txtIdPersonal}" size="10" /><p:commandButton id="btnPersonal"  value="..." type="button"/>
+                                    <p:column><p:inputText id="txtPersonal" binding="#{vistaReservaAmbiente.txtIdPersonal}"  size="10" /><p:commandButton id="btnPersonal"  value="..." type="button"/>
 
                                         <p:overlayPanel id="tablaPersonal" for="btnPersonal" hideEffect="fade" >
                                             <p:dataTable var="personal" value="#{vistaReservaAmbiente.listaPersonal}" 
@@ -134,8 +129,8 @@
                                             </p:dataTable>
                                         </p:overlayPanel>
                                     </p:column>
-                                    <p:column><h:outputText value="Id Ficha:"/></p:column>
-                                    <p:column><p:inputText id="txtFicha" binding="#{vistaReservaAmbiente.txtIdFicha}" size="10" /><p:commandButton id="btnFicha" type="button" value="..."/>
+                                    <p:column><p:outputLabel for="txtFicha" value="Id Ficha:"/></p:column>
+                                    <p:column><p:inputText id="txtFicha" binding="#{vistaReservaAmbiente.txtIdFicha}" size="10" placeholder="id ficha" /><p:commandButton id="btnFicha" type="button" value="..."/>
 
                                         <p:overlayPanel id="tablaFicha" for="btnFicha" hideEffect="fade" my="right top">
                                             <p:dataTable var="fichatitulacion" value="#{vistaReservaAmbiente.listaFicha}" 
@@ -161,7 +156,7 @@
                                     <p:column><p:calendar id="fechaInicio" binding="#{vistaReservaAmbiente.txtFechaInicio}" locale="es" pattern="yyyy-MM-dd"  effect="fold" size="10" /></p:column>
 
                                     <p:column><p:outputLabel for="fechaFin" value="Fecha fin:" /></p:column>
-                                    <p:column><p:calendar id="fechaFin" binding="#{vistaReservaAmbiente.txtFechaFin}" locale="es" pattern="yyyy-MM-dd"  effect="fold" size="10"/></p:column>
+                                    <p:column><p:calendar  id="fechaFin" binding="#{vistaReservaAmbiente.txtFechaFin}" locale="es" pattern="yyyy-MM-dd"  effect="fold" size="10"/></p:column>
 
                                     <p:column><p:outputLabel for="horaInicio" value="Hora inicio:" /></p:column>
                                     <p:column><p:calendar id="horaInicio" binding="#{vistaReservaAmbiente.txtHoraInicio}" locale="es" pattern="HH:mm:ss"  timeOnly="true"  effect="fold" size="10"/></p:column>
@@ -175,7 +170,7 @@
                                         <p:commandButton value="Registrar" binding="#{vistaReservaAmbiente.btnRegistrar}" action="#{vistaReservaAmbiente.registrar()}" update="frm" />
                                         <p:commandButton value="Modificar" binding="#{vistaReservaAmbiente.btnModificar}" disabled="true"/>
                                         <p:commandButton value="Eliminar" binding="#{vistaReservaAmbiente.btnEliminar}" disabled="true"/>
-                                        <p:commandButton value="Limpiar" binding="#{vistaReservaAmbiente.btnLimpiar}" action="#{vistaReservaAmbiente.limpiar()}" update="frm"/>
+                                        <p:commandButton value="Limpiar" binding="#{vistaReservaAmbiente.btnLimpiar}" resetValues="true" action="#{vistaReservaAmbiente.limpiar()}" update="frm"  readonly="true"/>
                                     </p:column>
                                 </p:row>
 
@@ -227,4 +222,9 @@
 
     </f:view>
 </html>
+
+
+
+
+
 

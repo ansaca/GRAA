@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -62,10 +63,14 @@ public class ReservaAmbienteLogica implements ReservaAmbienteLogicaLocal {
                                     //Validar fechas
                                     int coincide = 0, nocoincide = 0;
                                     for (int i = 0; i < listaConsultaA.size(); i++) {
+                                        int horainicioReservaRegistrada = Integer.parseInt(listaConsultaA.get(i).getHorainicioreserva().charAt(0) + listaConsultaA.get(i).getHorainicioreserva().charAt(1)+"");
+                                        int horafinReservoRegistrada = Integer.parseInt(listaConsultaA.get(i).getHorafinreserva().charAt(0) + listaConsultaA.get(i).getHorafinreserva().charAt(1)+"");
+                                        
                                         if (listaConsultaA.get(i).getFechafinreserva().before(reservaAmbiente.getFechainicioreserva()) && listaConsultaA.get(i).getFechafinreserva().before(reservaAmbiente.getFechafinreserva())) {
-                                            nocoincide++;
+                                            
+                                            //nocoincide++;
                                         } else if (reservaAmbiente.getFechainicioreserva().before(listaConsultaA.get(i).getFechainicioreserva()) && reservaAmbiente.getFechafinreserva().before(listaConsultaA.get(i).getFechainicioreserva())) {
-                                            nocoincide++;
+                                            //nocoincide++;
                                         } else {
                                             coincide++;
                                         }
@@ -252,3 +257,7 @@ public class ReservaAmbienteLogica implements ReservaAmbienteLogicaLocal {
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }
+
+
+
+

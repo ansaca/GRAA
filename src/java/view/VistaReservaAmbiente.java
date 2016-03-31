@@ -202,6 +202,7 @@ public class VistaReservaAmbiente {
     public void setTxtIdReservaAmbiente(Integer txtIdReservaAmbiente) {
         this.txtIdReservaAmbiente = txtIdReservaAmbiente;
     }
+    
 
     public InputText getTxtIdAmbiente() {
         return txtIdAmbiente;
@@ -495,3 +496,10 @@ public class VistaReservaAmbiente {
 
     }
 }
+
+
+
+
+
+
+
