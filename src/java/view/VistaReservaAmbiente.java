@@ -17,6 +17,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import logic.AmbientedeAprendizajeLogicaLocal;
 import logic.FichaTitulacionLogicaLocal;
 import logic.PersonalLogicaLocal;
@@ -495,6 +496,21 @@ public class VistaReservaAmbiente {
     public void eliminar() {
 
     }
+    
+    public String getobtenercodigousuariologueado(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        Personal personalLogueado = (Personal)session.getAttribute("Usuario");
+        return personalLogueado.getDocumentopersonal().toString();
+    }
+    
+     public String getobtenernombreusuariologueado(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        Personal personalLogueado = (Personal)session.getAttribute("Usuario");
+        return personalLogueado.getNombrepersonal();
+    }
+
 }
 
 

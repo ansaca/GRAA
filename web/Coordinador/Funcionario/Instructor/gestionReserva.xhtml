@@ -11,7 +11,7 @@
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
                 <title>Gestion reserva</title>
                 <link href="css/estilos.css" rel="stylesheet" type="text/css" /> 
-                <link rel="icon" type="image/gif" href="../images/favicon.gif" />
+                <link rel="icon" type="image/gif" href="../../../images/favicon.gif" />
             </f:facet>
             <script src="../../../javascript/cambioES.js" language="javascript" type="text/javascript"></script>
         </h:head>
@@ -92,7 +92,8 @@
                                     
 
                                     <p:column><h:outputText value="Id Personal:"/></p:column>
-                                    <p:column><p:inputText id="txtPersonal" binding="#{vistaReservaAmbiente.txtIdPersonal}" size="10" /><p:commandButton id="btnPersonal"  value="..." type="button"/>
+                                    <p:column><p:inputText id="txtPersonal" binding="#{vistaReservaAmbiente.txtIdPersonal}" size="10" value="#{vistaReservaAmbiente.obtenercodigousuariologueado}"
+                                                           /><p:commandButton id="btnPersonal"  value="..." type="button"/>
 
                                         <p:overlayPanel id="tablaPersonal" for="btnPersonal" hideEffect="fade" >
                                             <p:dataTable var="personal" value="#{vistaReservaAmbiente.listaPersonal}" 

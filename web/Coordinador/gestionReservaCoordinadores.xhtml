@@ -106,7 +106,8 @@
                                     
 
                                     <p:column><h:outputText value="Id Personal:"/></p:column>
-                                    <p:column><p:inputText id="txtPersonal" binding="#{vistaReservaAmbiente.txtIdPersonal}"  size="10" /><p:commandButton id="btnPersonal"  value="..." type="button"/>
+                                    <p:column><p:inputText id="txtPersonal" binding="#{vistaReservaAmbiente.txtIdPersonal}"  size="10" value="#{vistaReservaAmbiente.obtenercodigousuariologueado}"
+ /><p:commandButton id="btnPersonal"  value="..." type="button"/>
 
                                         <p:overlayPanel id="tablaPersonal" for="btnPersonal" hideEffect="fade" >
                                             <p:dataTable var="personal" value="#{vistaReservaAmbiente.listaPersonal}" 
