@@ -75,6 +75,7 @@ public class VistaPersonal {
     
     //mandar a coordinador
     public String cedulaRetornar;
+    public String llegada;
     
     //salidas de texto    
     private Column columnaRol;
@@ -87,7 +88,7 @@ public class VistaPersonal {
     private String comboRegistrarComo;  
     private List<SelectItem> combosRegistrarComo; 
 
-        private CommandButton btnRegistrarComo;
+    private CommandButton btnRegistrarComo;
     
     
     
@@ -184,6 +185,16 @@ public class VistaPersonal {
     {
          llenarComboRol();
     } 
+
+    public String getLlegada() {
+        return llegada;
+    }
+
+    public void setLlegada(String llegada) {
+        this.llegada = llegada;
+    }
+    
+    
 
     public Column getColumnaLabelRol() {
         return columnaLabelRol;
@@ -788,21 +799,25 @@ public class VistaPersonal {
             switch (comboRol) {
                 
             case "Coordinador":
+                FacesContext.getCurrentInstance().getPartialViewContext().getExecuteIds().add("alert('peek-a-boo');" );
             FacesContext.getCurrentInstance().getExternalContext().redirect("gestionCoordinador.xhtml");
-            mensajeBienvenidaCoordinador();
+           llegada="nuevo";
             break;
             
             case "Funcionario":  
             FacesContext.getCurrentInstance().getExternalContext().redirect("gestionFuncionario.xhtml");
+            llegada="nuevo";
             break;
             
             
             case "Instructor":
             FacesContext.getCurrentInstance().getExternalContext().redirect("gestionInstructor.xhtml");
+            llegada="nuevo";
             break;
             
             case "Guarda":
             FacesContext.getCurrentInstance().getExternalContext().redirect("gestionGuarda.xhtml");
+            llegada="nuevo";
             break;
             
             case "Ninguno":
