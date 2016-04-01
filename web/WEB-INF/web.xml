@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
@@ -26,42 +27,41 @@
     <welcome-file-list>
         <welcome-file>faces/sesion.xhtml</welcome-file>
     </welcome-file-list>
-    
+    <!--Pags. Coordinadores-->
      <filter>
         <filter-name>FiltroCoordinador</filter-name>
-        <filter-class>Filter.filtroCoodinador</filter-class>
+        <filter-class>Filter.filtroCoordinador</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FiltroCoordinador</filter-name>
-        <url-pattern>/Coordinador/*</url-pattern>
+        <url-pattern>/faces/Coordinador/*</url-pattern>
     </filter-mapping>
     
+    <!-- Pags. Funcionario-->
      <filter>
         <filter-name>FiltroFuncionario</filter-name>
         <filter-class>Filter.filtroFuncionario</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FiltroFuncionario</filter-name>
-        <url-pattern>/Coordinador/Funcionario/*</url-pattern>
+        <url-pattern>/faces/Coordinador/Funcionario/Instructor/gestionReserva.xhtml</url-pattern>
     </filter-mapping>
-    
+    <!-- Pags. Guarda-->
      <filter>
         <filter-name>FiltroGuarda</filter-name>
         <filter-class>Filter.filtroGuarda</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FiltroGuarda</filter-name>
-        <url-pattern>/Coordinador/Funcionario/Guarda/*</url-pattern>
+        <url-pattern>/faces/Guarda/gestionUsosAmbiente.xhtml</url-pattern>
     </filter-mapping>
-    
+    <!--Pags. Instructor-->
     <filter>
         <filter-name>FiltroInstructor</filter-name>
         <filter-class>Filter.filtroInstructor</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FiltroInstructor</filter-name>
-        <url-pattern>/Coordinador/Funcionario/Guarda/Instructor/*</url-pattern>
+        <url-pattern>/faces/Coordinador/Funcionario/Instructor/gestionReserva.xhtml</url-pattern>
     </filter-mapping>
-    
-    
 </web-app>

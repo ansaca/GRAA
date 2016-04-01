@@ -15,6 +15,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Guarda;
+import model.Personal;
 
 
 /**
@@ -31,7 +32,7 @@ public class filtroGuarda implements Filter{
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,ServletException {
       try{
         String tipo=((HttpServletRequest) request).getSession().getAttribute("tipo").toString();
         if(tipo!=null)
@@ -40,8 +41,8 @@ public class filtroGuarda implements Filter{
             {
                 ((HttpServletResponse)response).sendRedirect("faces/SesionInvalida.xhtml");
             }else{
-                Guarda guardaLogeado =(Guarda)((HttpServletRequest)request).getSession().getAttribute("Usuario");
-                if(guardaLogeado!=null){
+                Personal usuarioLogueado =(Personal)((HttpServletRequest)request).getSession().getAttribute("Usuario");
+                if(usuarioLogueado!=null){
                     chain.doFilter(request, response);
                 }else{
                     ((HttpServletResponse)response).sendRedirect("faces/SesionInvalida.xhtml");
@@ -50,7 +51,7 @@ public class filtroGuarda implements Filter{
             }
         }
         }catch(NullPointerException e){
-            ((HttpServletResponse)response).sendRedirect("faces/SesionInvalida.xhtml");
+            ((HttpServletResponse)response).sendRedirect("/GRAA/faces/SesionInvalida.xhtml");
         }
     }
 

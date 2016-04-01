@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,11 +15,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Coordinador;
-
+import model.Personal;
+ 
 /**
  *
- * @author G40-80
+ * @author JuanP
  */
 public class filtroCoordinador implements Filter{
   
@@ -30,26 +31,27 @@ public class filtroCoordinador implements Filter{
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, 
+ServletException {
        try{
         String tipo=((HttpServletRequest) request).getSession().getAttribute("tipo").toString();
         if(tipo!=null)
         {
             if(!tipo.equals("Coordinador"))
             {
-                ((HttpServletResponse)response).sendRedirect("faces/SesionInvalida.xhtml");
+                ((HttpServletResponse)response).sendRedirect("/faces/SesionInvalida.xhtml");
             }else{
-                Coordinador coordinadorLogeado =(Coordinador)((HttpServletRequest)request).getSession().getAttribute("Usuario");
+                Personal coordinadorLogeado =(Personal)((HttpServletRequest)request).getSession().getAttribute("Usuario");
                 if(coordinadorLogeado!=null){
-                    chain.doFilter(request, response);
+                  chain.doFilter(request, response);
                 }else{
-                    ((HttpServletResponse)response).sendRedirect("faces/SesionInvalida.xhtml");
-                }
+                    ((HttpServletResponse)response).sendRedirect("/faces/SesionInvalida.xhtml");
+                }              
             
             }
         }
         }catch(NullPointerException e){
-            ((HttpServletResponse)response).sendRedirect("faces/SesionInvalida.xhtml");
+            ((HttpServletResponse)response).sendRedirect("/GRAA/faces/SesionInvalida.xhtml");
         }
     }
 

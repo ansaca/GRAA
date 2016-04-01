@@ -20,7 +20,7 @@ import persistence.PersonalFacadeLocal;
 
 /**
  *
- * @author andres
+ * @author JuanP
  */
 
 @Stateless
@@ -39,7 +39,7 @@ public class SesionLogica implements SesionLogicaLocal {
     
     @Override
     public Personal iniciarSesionCoordinador(Long documento, String contraseña) throws Exception {
-        if (documento==null || documento == null) {
+        if (documento==null ) {
             throw  new Exception("Datos obligatorios");
         }
         if (contraseña.equals("")) {
