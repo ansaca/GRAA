@@ -29,6 +29,16 @@ public class ReservaAmbienteLogica implements ReservaAmbienteLogicaLocal {
     public void crear(Reservaambiente reservaAmbiente) throws Exception {
 
         Reservaambiente reservaHecha = reservaDAO.find(reservaAmbiente.getCodigoreservambiente());
+        
+        if (reservaAmbiente.getDocumentopersonal().getDocumentopersonal()==null) {
+            throw new Exception("Ingrese o seleccione un dcumento personal");
+        }
+        if (reservaAmbiente.getFichatitulacion().getFichatitulacion()==null) {
+            throw new Exception("Ingrese o seleccione una ficha");
+        }
+        
+        
+        
         if (reservaHecha == null) {
 
             //Validacion fecha y hora ordenadas
@@ -68,24 +78,25 @@ public class ReservaAmbienteLogica implements ReservaAmbienteLogicaLocal {
                                         
                                         if (listaConsultaA.get(i).getFechafinreserva().before(reservaAmbiente.getFechainicioreserva()) && listaConsultaA.get(i).getFechafinreserva().before(reservaAmbiente.getFechafinreserva())) {
                                             
-                                            //nocoincide++;
+                                            nocoincide++;
                                         } else if (reservaAmbiente.getFechainicioreserva().before(listaConsultaA.get(i).getFechainicioreserva()) && reservaAmbiente.getFechafinreserva().before(listaConsultaA.get(i).getFechainicioreserva())) {
-                                            //nocoincide++;
+                                            nocoincide++;
                                         } else {
                                             coincide++;
                                         }
                                     }
 
                                     if (coincide == 0) {
-                                        throw new Exception("REGISTRAR El ambiente si estaba en el registro, no coinciden en las "+nocoincide+" fechas que el ambiente esta reservado!! ");
+                                        reservaDAO.create(reservaAmbiente);
+                                        //throw new Exception("REGISTRAR El ambiente si estaba en el registro,coinciden en "+nocoincide+" fechas de ambientes reservados!! ");
                                     } else if (coincide >= 1) {
                                         throw new Exception("Error, El ambiente coincide con "+coincide+" fecha(s) reservadas");
                                     }
 
                                 } else {
                                     //La reserva que se registra contiene un ambiente que no esta en el registro de reservas por eso no se valida fechas
-                                    //reservaDAO.create(reservaAmbiente);
-                                    throw new Exception("REGISTRAR  El ambiente no estaba en el registro");
+                                    reservaDAO.create(reservaAmbiente);
+                                    //throw new Exception("REGISTRAR  El ambiente no estaba en el registro");
                                 }
 
                             } else {
@@ -134,15 +145,16 @@ public class ReservaAmbienteLogica implements ReservaAmbienteLogicaLocal {
                                     }
 
                                     if (coincide == 0) {
-                                        throw new Exception("REGISTRAR El ambiente si estaba en el registro, no coinciden en las "+nocoincide+" fechas que el ambiente esta reservado!! ");
+                                        reservaDAO.create(reservaAmbiente);
+                                      //  throw new Exception("REGISTRAR El ambiente si estaba en el registro,coinciden en "+nocoincide+" fechas de ambientes reservados!! ");
                                     } else if (coincide >= 1) {
                                         throw new Exception("Error, El ambiente coincide con "+coincide+" fecha(s) reservadas");
                                     }
 
                                 } else {
                                     //La reserva que se registra contiene un ambiente que no esta en el registro de reservas por eso no se valida fechas
-                                    //reservaDAO.create(reservaAmbiente);
-                                    throw new Exception("REGISTRAR  El ambiente no estaba en el registro");
+                                    reservaDAO.create(reservaAmbiente);
+                                    //throw new Exception("REGISTRAR  El ambiente no estaba en el registro");
                                 }
 
                             } else {
@@ -191,15 +203,16 @@ public class ReservaAmbienteLogica implements ReservaAmbienteLogicaLocal {
                                     }
 
                                     if (coincide == 0) {
-                                        throw new Exception("REGISTRAR El ambiente si estaba en el registro, no coinciden en las "+nocoincide+" fechas que el ambiente esta reservado!! ");
+                                        reservaDAO.create(reservaAmbiente);
+                                        //throw new Exception("REGISTRAR El ambiente si estaba en el registro,coinciden en "+nocoincide+" fechas de ambientes reservados!! ");
                                     } else if (coincide >= 1) {
                                         throw new Exception("Error, El ambiente coincide con "+coincide+" fecha(s) reservadas");
                                     }
 
                                 } else {
                                     //La reserva que se registra contiene un ambiente que no esta en el registro de reservas por eso no se valida fechas
-                                    //reservaDAO.create(reservaAmbiente);
-                                    throw new Exception("REGISTRAR  El ambiente no estaba en el registro");
+                                    reservaDAO.create(reservaAmbiente);
+                                   // throw new Exception("REGISTRAR  El ambiente no estaba en el registro");
                                 }
 
                             } else {

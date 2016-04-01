@@ -17,7 +17,7 @@
         </h:head>
 
         <h:body style="font-size: 12px;">
-
+            
             <p:layout fullPage="true">
 
                 <p:layoutUnit  position="north" size="120"  resizable="true">
@@ -40,7 +40,10 @@
 
                 <p:layoutUnit position="west" size="175" header="Minimizar" collapsible="true" >
                     <h:form>
-                       
+                       <p:submenu label="Menu">
+                                
+                                <p:menuitem value="Cerrar Sesion" action="#{vistaSesion.cerrarSesion()}" />
+                            </p:submenu>
                     </h:form>
                 </p:layoutUnit>
 
@@ -56,7 +59,7 @@
                                     <p:column><h:outputText value="Id Ambiente:" /></p:column>
                                     <p:column><p:inputText id="txtAmbiente" binding="#{vistaReservaAmbiente.txtIdAmbiente}" size="10" /><p:commandButton id="btnAmbiente" value="..." type="button" />
                                         
-                                        <p:overlayPanel id="tablaAmbiente" for="btnAmbiente" hideEffect="fade" showEffect="blind">
+                                        <p:overlayPanel id="tablaAmbiente" style="width:640px;" for="btnAmbiente" hideEffect="fade" showEffect="blind">
                                             <p:dataTable  var="ambiente" value="#{vistaReservaAmbiente.listaAmbiente}" 
                                                          rows="5" paginator="true"  selection="#{vistaReservaAmbiente.ambienteSeleccionado}" 
                                                          selectionMode="single" emptyMessage="No hay datos" rowKey="#{ambiente.codigoambiente}">
@@ -92,7 +95,7 @@
                                     
 
                                     <p:column><h:outputText value="Id Personal:"/></p:column>
-                                    <p:column><p:inputText id="txtPersonal" binding="#{vistaReservaAmbiente.txtIdPersonal}" size="10" value="#{vistaReservaAmbiente.obtenercodigousuariologueado}"
+                                    <p:column><p:inputText id="txtPersonal" binding="#{vistaReservaAmbiente.txtIdPersonal}" size="10" value="#{vistaReservaAmbiente.personal.documentopersonal}" disabled="true"
                                                            /><p:commandButton id="btnPersonal"  value="..." type="button"/>
 
                                         <p:overlayPanel id="tablaPersonal" for="btnPersonal" hideEffect="fade" >
@@ -160,8 +163,8 @@
                                 <p:row>
                                     <p:column colspan="8" style="text-align: center;">
                                         <p:commandButton value="Registrar" binding="#{vistaReservaAmbiente.btnRegistrar}" action="#{vistaReservaAmbiente.registrar()}" update="frm" />
-                                        <p:commandButton value="Modificar" binding="#{vistaReservaAmbiente.btnModificar}" disabled="true"/>
-                                        <p:commandButton value="Eliminar" binding="#{vistaReservaAmbiente.btnEliminar}" disabled="true"/>
+                                        <p:commandButton value="Modificar" binding="#{vistaReservaAmbiente.btnModificar}" disabled="true" action="#{vistaReservaAmbiente.modificar()}" update="frm"/>
+                                        <p:commandButton value="Eliminar" binding="#{vistaReservaAmbiente.btnEliminar}" disabled="true" action="#{vistaReservaAmbiente.eliminar()}" update="frm"/>
                                         <p:commandButton value="Limpiar" binding="#{vistaReservaAmbiente.btnLimpiar}" action="#{vistaReservaAmbiente.limpiar()}" update="frm"/>
                                     </p:column>
                                 </p:row>

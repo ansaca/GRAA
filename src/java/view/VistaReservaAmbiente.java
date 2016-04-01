@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -89,19 +90,19 @@ public class VistaReservaAmbiente {
         java.util.Calendar c = new GregorianCalendar();
 
         int dia = c.get(java.util.Calendar.DATE);
-        int mes = c.get(java.util.Calendar.MONTH)+1;
+        int mes = c.get(java.util.Calendar.MONTH) + 1;
         int annio = c.get(java.util.Calendar.YEAR);
-        
+
         //validacion ceros en meses y dias de un solo caracter
-        if (mes<10) {
-            fechaActual = "Fecha actual: " + annio+ "-0" + mes + "-" + dia;
-        }else if (dia<10) {
-            fechaActual = "Fecha actual: " + annio+ "-" + mes + "-0" + dia;
-        }else if (mes<10 && dia<10) {
-            fechaActual = "Fecha actual: " + annio+ "-0" + mes + "-0" + dia;
+        if (mes < 10) {
+            fechaActual = "Fecha actual: " + annio + "-0" + mes + "-" + dia;
+        } else if (dia < 10) {
+            fechaActual = "Fecha actual: " + annio + "-" + mes + "-0" + dia;
+        } else if (mes < 10 && dia < 10) {
+            fechaActual = "Fecha actual: " + annio + "-0" + mes + "-0" + dia;
         }
 
-        return fechaActual;
+        return "Bienvenido Sr(a). " + getPersonal().getNombrepersonal() + " " + getPersonal().getApellidopersonal() + "      --------          " + fechaActual;
     }
 
     public void setFechaActual(String fechaActual) {
@@ -203,7 +204,6 @@ public class VistaReservaAmbiente {
     public void setTxtIdReservaAmbiente(Integer txtIdReservaAmbiente) {
         this.txtIdReservaAmbiente = txtIdReservaAmbiente;
     }
-    
 
     public InputText getTxtIdAmbiente() {
         return txtIdAmbiente;
@@ -398,7 +398,7 @@ public class VistaReservaAmbiente {
         //txtIdReservaAmbiente=0;
         txtIdReservaAmbiente = codigoMayor();
         txtIdFicha.setValue("");
-        txtIdPersonal.setValue("");
+        txtIdPersonal.setValue(getPersonal().getDocumentopersonal());
         txtIdAmbiente.setValue("");
         txtFechaFin.setValue(null);
         txtFechaInicio.setValue(null);
@@ -447,8 +447,13 @@ public class VistaReservaAmbiente {
             re.setHorafinreserva(h2);
 
             reservaDAO.crear(re);
+            listaReserva = null;
+            listaAmbiente = null;
+            listaPersonal = null;
+            listaFicha = null;
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", "Registro creado!"));
             limpiar();
+            
 
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Mensaje", ex.getMessage()));
@@ -483,9 +488,33 @@ public class VistaReservaAmbiente {
             re.setHorainicioreserva(h1);
             re.setHorafinreserva(h2);
 
-            reservaDAO.editar(re);
-            limpiar();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", "Registro modificado!"));
+            //Validando el tipo de usuario para modificar
+            if (getTipoPersonal().equals("Coordinador")) {
+                reservaDAO.editar(re);
+                limpiar();
+                listaReserva = null;
+            listaAmbiente = null;
+            listaPersonal = null;
+            listaFicha = null;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", "Registro modificado!"));
+
+            } else {
+
+                //Validando idPersonal de la sesion igual Idpersonal a modificar
+                if (Objects.equals(re.getDocumentopersonal().getDocumentopersonal(), getPersonal().getDocumentopersonal())) {
+
+                    reservaDAO.editar(re);
+                    limpiar();
+                    listaReserva = null;
+            listaAmbiente = null;
+            listaPersonal = null;
+            listaFicha = null;
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", "Registro modificado!"));
+
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "No Se Permite Modificar Reservas de Otra Persona, solo los Coordinadores"));
+                }
+            }
 
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Mensaje", "Error modificando datos" + ex.getMessage()));
@@ -494,28 +523,68 @@ public class VistaReservaAmbiente {
     }
 
     public void eliminar() {
+        try {
+            Reservaambiente re = new Reservaambiente();
+            Ambientedeaprendizaje am = new Ambientedeaprendizaje();
+            Personal p = new Personal();
+            Fichatitulacion f = new Fichatitulacion();
 
+            re.setCodigoreservambiente(txtIdReservaAmbiente);
+
+            am.setCodigoambiente(Integer.parseInt(txtIdAmbiente.getValue().toString()));
+            re.setCodigoambiente(am);
+            p.setDocumentopersonal(Long.parseLong(txtIdPersonal.getValue().toString()));
+            re.setDocumentopersonal(p);
+            f.setFichatitulacion(Integer.parseInt(txtIdFicha.getValue().toString()));
+            re.setFichatitulacion(f);
+
+            re.setFechainicioreserva((Date) txtFechaInicio.getValue());
+            re.setFechafinreserva((Date) txtFechaFin.getValue());
+
+            SimpleDateFormat format1 = new SimpleDateFormat("HH:mm:ss");
+
+            String h1 = format1.format(txtHoraInicio.getValue());
+            String h2 = format1.format(txtHoraFin.getValue());
+            re.setHorainicioreserva(h1);
+            re.setHorafinreserva(h2);
+
+            //Validando el tipo de usuario para modificar
+            if (getTipoPersonal().equals("Coordinador")) {
+                reservaDAO.eliminar(re);
+                limpiar();
+                listaReserva = null;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", "Registro eliminado!"));
+
+            } else {
+
+                //Validando idPersonal de la sesion igual Idpersonal a modificar
+                if (Objects.equals(re.getDocumentopersonal().getDocumentopersonal(), getPersonal().getDocumentopersonal())) {
+
+                    reservaDAO.eliminar(re);
+                    limpiar();
+                    listaReserva = null;
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", "Registro eliminado!"));
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "No Se Permite Eliminar Reservas de Otra Persona, solo los coordinadores"));
+                }
+            }
+
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Mensaje", "Error modificando datos" + ex.getMessage()));
+        }
     }
-    
-    public String getobtenercodigousuariologueado(){
+
+    public Personal getPersonal() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        Personal personalLogueado = (Personal)session.getAttribute("Usuario");
-        return personalLogueado.getDocumentopersonal().toString();
-    }
-    
-     public String getobtenernombreusuariologueado(){
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        Personal personalLogueado = (Personal)session.getAttribute("Usuario");
-        return personalLogueado.getNombrepersonal();
+        Personal personalLogueado = (Personal) session.getAttribute("Usuario");
+        return personalLogueado;
     }
 
+    public String getTipoPersonal() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        String tipopersonalLogueado = (String) session.getAttribute("tipo");
+        return tipopersonalLogueado;
+    }
 }
-
-
-
-
-
-
-
