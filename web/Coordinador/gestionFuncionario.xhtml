@@ -1,16 +1,138 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>GRAA-Gestion de Funcionarios</title>
+                <link href="css/estilos.css" rel="stylesheet" type="text/css" /> 
+                <link rel="icon" type="image/gif" href="../images/favicon.gif" />
+            </f:facet>
+            
+                <script src="../javascript/cambioES.js"></script>
+            
+        </h:head>
+
+        <h:body style="font-size: 12px;">
+            
+
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit  position="north" size="120"  resizable="true">
+                    <h1>Gestion de Funcionarios</h1>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    Footer
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="175" header="Minimizar" collapsible="true" >
+                    <h:form>
+                        <p:menu>
+                            <p:submenu label="Menu">
+                               <p:menuitem value="Gestion de Reservas" outcome="gestionReservaCoordinadores" />
+                                <p:menuitem value="Gestion de Personal" outcome="gestionPersonal" />
+                                <p:menuitem value="Gestion de tipos de Ambientes" outcome="gestionTiposAmbientes" />
+                                <p:menuitem value="Gestion de Sedes" outcome="gestionSedes" />
+                               <p:menuitem value="Gestion de Ambientes" outcome="gestionAmbiente" />
+                               <p:menuitem value="Gestion de Coordinadores" outcome="gestionCoordinador" />
+                               <p:menuitem value="Gestion de Funcionarios" outcome="gestionFuncionario" />
+                               <p:menuitem value="Gestion de Instructores" outcome="gestionInstructor" />
+                               <p:menuitem value="Gestion de Guarda" outcome="gestionGuarda" />
+                               
+                            </p:submenu>
+
+                        </p:menu>
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    
+                    <h:form  id="frmFuncionario">
+                       
+                        <p:growl id="growl" showDetail="true" sticky="true" />
+                        <p:panel id="panelGestionFuncionarios" header="Gestion de Funcionario">
+                            <p:panelGrid style="margin: auto; ">
+                                
+                                <p:row>
+                                    <p:column><h:outputText value="Cédula:"/></p:column>
+                                    <p:column><p:inputText id="txtCedulaPersonalFuncionario" binding="#{vistaPersonal.txtCedulaPersonalFuncionario}" size="25" disabled="true" value="#{vistaPersonal.cedulaRetornar}" /></p:column>
+
+                                    <p:column width="25"><p:outputLabel value="Rol:"  /></p:column>
+                                    <p:column width="25" >  <p:selectOneMenu value="#{vistaPersonal.comboArea}"   >
+                                            <f:selectItems value="#{vistaPersonal.combosArea}" />
+                                        </p:selectOneMenu> </p:column>
+
+                                     
+                                </p:row>
+                                
+                                   <p:row>
+                                   <p:column colspan="8" style="text-align: center;">
+                                       
+                                         <p:growl id="message" showDetail="true" />
+                                         
+                                         <p:commandButton value="Registrar" binding="#{vistaPersonal.btnRegistrarFuncionario}" action="#{vistaPersonal.registrarFuncionario()}" update="frmFuncionario, message" >
+                                             <p:confirm header="Confirmation" message="¿Está seguro que desea Registrar este Funcionario?" icon="ui-icon-alert" />
+                                         </p:commandButton>
+
+                                         <p:commandButton value="Modificar" binding="#{vistaPersonal.btnModificarFuncionario}" action="#{vistaPersonal.modificarFuncionario()}" update="message, frmFuncionario" disabled="true">
+                                            <p:confirm header="Confirmation" message="¿Está seguro que desea modificar este Funcionario?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+
+                                         <p:commandButton value="Eliminar" binding="#{vistaPersonal.btnEliminarFuncionario}" action="#{vistaPersonal.eliminarFuncionario()}" update="message, frmFuncionario" disabled="true">
+                                        <p:confirm header="Confirmation" message="¿Está seguro que desea eliminar este Funcionario?" icon="ui-icon-alert" />
+                                        </p:commandButton>
+                                            
+                                         <p:commandButton value="Limpiar" binding="#{vistaPersonal.btnLimpiarFuncionario}" action="#{vistaPersonal.limpiarFuncionario()}" update="frmFuncionario"/>
+                                   
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </p:confirmDialog>
+                                        
+                                    </p:column>
+                                </p:row>
+                                
+
+                            </p:panelGrid>
+                        </p:panel>
+                        
+                        
+                        <p:dataTable id="tabla" var="funcionario" value="#{vistaPersonal.listaFuncionarios}" rows="5"
+                                     paginator="true" rowsPerPageTemplate="5,10,15"
+                                     selectionMode="single"
+                                     selection="#{vistaPersonal.coordinadorSeleccionado}"
+                                     emptyMessage="Sin datos"
+                                     rowKey="#{coordinador.documentocoordinador}" 
+                                     >
+                            
+                            <p:ajax event="rowSelect" listener="#{vistaPersonal.OnRowSelectCoordinador}" update=":frmCoordinador"/>
+                            
+                            <p:column headerText="Cedula">
+                                <h:outputText value="#{coordinador.documentocoordinador}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Tipo coordinador">
+                                <h:outputText value="#{coordinador.tipocoordinador}"/>
+                            </p:column>
+
+                            
+                        </p:dataTable> 
+
+                    </h:form>
+                    
+                </p:layoutUnit>
+               
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
 </html>

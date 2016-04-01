@@ -15,10 +15,13 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import logic.CoordinadorLogicaLocal;
+import logic.FuncionarioLogicaLocal;
+import logic.InstructorLogicaLocal;
 import logic.PersonalLogicaLocal;
 import model.Area;
 import model.Coordinador;
@@ -45,6 +48,13 @@ public class VistaPersonal {
     
     @EJB
     public CoordinadorLogicaLocal coordinadorDAO;
+    
+    @EJB 
+    public FuncionarioLogicaLocal funcionarioDAO;
+    
+    @EJB
+    public InstructorLogicaLocal instructorDAO;
+    
     
     private InputText txtCedulaPersonal;
     private InputText txtNombrePersonal;
@@ -193,6 +203,22 @@ public class VistaPersonal {
     public void setLlegada(String llegada) {
         this.llegada = llegada;
     }
+
+    public FuncionarioLogicaLocal getFuncionarioDAO() {
+        return funcionarioDAO;
+    }
+
+    public void setFuncionarioDAO(FuncionarioLogicaLocal funcionarioDAO) {
+        this.funcionarioDAO = funcionarioDAO;
+    }
+
+    public InstructorLogicaLocal getInstructorDAO() {
+        return instructorDAO;
+    }
+
+    public void setInstructorDAO(InstructorLogicaLocal instructorDAO) {
+        this.instructorDAO = instructorDAO;
+    }
     
     
 
@@ -296,6 +322,13 @@ public class VistaPersonal {
     }
 
     public List<Funcionario> getListaFuncionarios() {
+       if (listaFuncionarios == null) {
+            try {
+                listaFuncionarios = funcionarioDAO.consultarTodo();
+            } catch (Exception ex) {
+                Logger.getLogger(VistaPersonal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return listaFuncionarios;
     }
 
@@ -799,7 +832,9 @@ public class VistaPersonal {
             switch (comboRol) {
                 
             case "Coordinador":
-                FacesContext.getCurrentInstance().getPartialViewContext().getExecuteIds().add("alert('peek-a-boo');" );
+                
+                
+                
             FacesContext.getCurrentInstance().getExternalContext().redirect("gestionCoordinador.xhtml");
            llegada="nuevo";
             break;
@@ -1285,6 +1320,36 @@ public class VistaPersonal {
     
     
     //para el caso de funcionarios
+    
+    public void llenarComboAreaFuncionario()
+    {
+         
+    }
+    
+    public void registrarFuncionario()
+    {
+        
+    }
+    
+    public void modificarFuncionario()
+    {
+        
+    }
+    
+    public void eliminarFuncionario()
+    {
+        
+    }
+    
+    public void limpiarFuncionario()
+    {
+        
+    }
+    
+    
+    
+    
+    
     
     
     

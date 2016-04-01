@@ -28,7 +28,7 @@ public class FuncionarioLogica implements FuncionarioLogicaLocal {
             funcionarioDAO.create(funcionario);
             
         }else{
-            throw new Exception("El personal ya esta registrado");
+            throw new Exception("El funcionario ya esta registrado");
         }
 
     }
