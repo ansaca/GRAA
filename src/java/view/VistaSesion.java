@@ -77,14 +77,10 @@ public class VistaSesion {
         String urlCoordinador = "", urlFuncionario = "", urlInstructor = " ", urlGuarda = "";
 
         try {
-            urlCoordinador = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,
-                    "/Coordinador/gestionReservaCoordinadores.xhtml"));
-            urlFuncionario = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,
-                    "/Coordinador/Funcionario/Instructor/gestionReserva.xhtml"));
-            urlInstructor = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,
-                    "/Coordinador/Funcionario/Instructor/gestionReserva.xhtml"));
-            urlGuarda = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,
-                    "/Guarda/gestionUsosAmbiente.xhtml"));
+            urlCoordinador = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,"/Coordinador/gestionReservaCoordinadores.xhtml"));
+            urlFuncionario = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,"/Funcionario/Instructor/gestionReserva.xhtml"));
+            urlInstructor = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,"/Funcionario/Instructor/gestionReserva.xhtml"));
+            urlGuarda = extContext.encodeActionURL(context.getApplication().getViewHandler().getActionURL(context,"/Guarda/gestionUsosAmbiente.xhtml"));
             Long documento = Long.parseLong(txtUsuario.getValue().toString());
             String contraseña = txtContraseña.getValue().toString();
 

@@ -37,17 +37,16 @@ ServletException {
         String tipo=((HttpServletRequest) request).getSession().getAttribute("tipo").toString();
         if(tipo!=null)
         {
-            if(!tipo.equals("Funcionario"))
+            if(tipo.equals("Funcionario")||tipo.equals("Instructor"))
             {
-                ((HttpServletResponse)response).sendRedirect("faces/SesionInvalida.xhtml");
-            }else{
-                Personal usuarioLogueado =(Personal)((HttpServletRequest)request).getSession().getAttribute("Usuario");
+                   Personal usuarioLogueado =(Personal)((HttpServletRequest)request).getSession().getAttribute("Usuario");
                 if(usuarioLogueado!=null){
                     chain.doFilter(request, response);
                 }else{
-                    ((HttpServletResponse)response).sendRedirect("faces/SesionInvalida.xhtml");
+                    ((HttpServletResponse)response).sendRedirect("/GRAA/faces/SesionInvalida.xhtml");
                 }
-            
+            }else{
+            ((HttpServletResponse)response).sendRedirect("/GRAA/faces/SesionInvalida.xhtml");
             }
         }
         }catch(NullPointerException e){

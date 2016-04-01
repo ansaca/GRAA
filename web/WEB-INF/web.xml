@@ -37,14 +37,14 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
         <url-pattern>/faces/Coordinador/*</url-pattern>
     </filter-mapping>
     
-    <!-- Pags. Funcionario-->
+    <!-- Pags. Funcionario e Instructor-->
      <filter>
         <filter-name>FiltroFuncionario</filter-name>
         <filter-class>Filter.filtroFuncionario</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FiltroFuncionario</filter-name>
-        <url-pattern>/faces/Coordinador/Funcionario/Instructor/gestionReserva.xhtml</url-pattern>
+        <url-pattern>/faces/Funcionario/Instructor/gestionReserva.xhtml</url-pattern>
     </filter-mapping>
     <!-- Pags. Guarda-->
      <filter>
@@ -55,13 +55,5 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
         <filter-name>FiltroGuarda</filter-name>
         <url-pattern>/faces/Guarda/gestionUsosAmbiente.xhtml</url-pattern>
     </filter-mapping>
-    <!--Pags. Instructor-->
-    <filter>
-        <filter-name>FiltroInstructor</filter-name>
-        <filter-class>Filter.filtroInstructor</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>FiltroInstructor</filter-name>
-        <url-pattern>/faces/Coordinador/Funcionario/Instructor/gestionReserva.xhtml</url-pattern>
-    </filter-mapping>
+   
 </web-app>
