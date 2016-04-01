@@ -88,16 +88,15 @@ public class VistaSesion {
             Long documento = Long.parseLong(txtUsuario.getValue().toString());
             String contraseña = txtContraseña.getValue().toString();
 
-            System.out.println("Datos " + documento + "clave " + contraseña);
             Personal personalLogueado = null;
             //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "informe" + personalC.getIdPersonal() + ", " + personalC.getClave()  ));
-            personalLogueado = sesionDAO.iniciarSesionCoordinador(documento, contraseña);
+            personalLogueado = sesionDAO.iniciarSesionCoordinador(documento,contraseña);
             if (personalLogueado == null) {
-                personalLogueado = sesionDAO.iniciarSesionFuncionario(documento, contraseña);
+                personalLogueado = sesionDAO.iniciarSesionFuncionario(documento,contraseña);
                 if (personalLogueado == null) {
-                    personalLogueado = sesionDAO.iniciarSesionGuarda(documento, contraseña);
+                    personalLogueado = sesionDAO.iniciarSesionGuarda(documento,contraseña);
                     if (personalLogueado == null) {
-                        personalLogueado = sesionDAO.iniciarSesionInstructor(documento, contraseña);
+                        personalLogueado = sesionDAO.iniciarSesionInstructor(documento,contraseña);
                         if (personalLogueado == null) {
                             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El Usuario No Existe"));
                         } else {
@@ -126,7 +125,7 @@ public class VistaSesion {
             }
         } catch (Exception ex) {
             Logger.getLogger(VistaSesion.class.getName()).log(Level.SEVERE, null, ex);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error","Hubo un error: " + ex.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error","Por Favor Ingresa Tus Datos Correctamente"));
         }
     }
 
